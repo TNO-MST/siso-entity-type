@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "build-pages": "vue-tsc --noEmit && vite build --base=/siso-entity-type-picker --outDir=pages",
+    "build-pages": "vue-tsc --noEmit && vite build --base=/siso-entity-type --outDir=pages",
     "build-quiet": "vue-tsc --noEmit && vite --logLevel error build",
     "preview": "vite preview",
     "format": "prettier --write .",
