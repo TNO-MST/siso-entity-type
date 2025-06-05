@@ -1,5 +1,11 @@
 # @siso-entity-type/lib
 
+## 0.1.2
+
+### Patch Changes
+
+- Fixing initial changesets configuration
+
 ## 0.1.1
 
 ### Patch Changes

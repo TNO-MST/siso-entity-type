@@ -1,5 +1,13 @@
 # @siso-entity-type/picker
 
+## 0.1.2
+
+### Patch Changes
+
+- Fixing initial changesets configuration
+- Updated dependencies
+  - @siso-entity-type/lib@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes
