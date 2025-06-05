@@ -2,6 +2,15 @@
   "name": "@siso-entity-type/picker",
   "version": "0.1.1",
   "private": "true",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rinzeb/siso-entity-type.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rinzeb/siso-entity-type/issues"
+  },
+  "homepage": "https://github.com/rinzeb/siso-entity-type",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",

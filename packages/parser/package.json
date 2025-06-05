@@ -13,12 +13,12 @@
   "access": "public",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rinzeb/siso-entity-type-parser.git"
+    "url": "git+https://github.com/rinzeb/siso-entity-type.git"
   },
   "bugs": {
-    "url": "https://github.com/rinzeb/siso-entity-type-parser/issues"
+    "url": "https://github.com/rinzeb/siso-entity-type/issues"
   },
-  "homepage": "https://github.com/rinzeb/siso-entity-type-parser",
+  "homepage": "https://github.com/rinzeb/siso-entity-type",
   "license": "MIT",
   "type": "module",
   "scripts": {

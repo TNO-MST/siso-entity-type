@@ -30,7 +30,7 @@ To use SISO-REF-010 enums library in your project, follow these steps:
    ```typescript
    // Example usage in browser (using vite)
    import { SisoEnums, SisoEnumsFactory, type SisoEnumsDataType } from "@siso-entity-type/lib";
-   import SISO_ENUMS_JSON_URL from "@siso-entity-type/lib/siso-enums.json?url" with { type: "json" };
+   import SISO_ENUMS_JSON_URL from "@siso-entity-type/lib/data/siso-enums.json?url" with { type: "json" };
    const enumsResponse = await fetch(SISO_ENUMS_JSON_URL);
    enumsMap = (await enumsResponse.json()) as SisoEnumsDataType;
    const sisoEnums = new SisoEnums(enumsMap);

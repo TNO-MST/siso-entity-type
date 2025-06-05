@@ -24,7 +24,7 @@
   "scripts": {
     "clean-dist": "rimraf dist && rimraf data",
     "clean-completely": "pnpm run clean-dist && rimraf node_modules",
-    "build": "tsc && cpy data/* ./dist/",
+    "build": "tsc",
     "ci": "pnpm run build && pnpm run check-format && pnpm run check-exports && pnpm run test",
     "format": "prettier --write .",
     "check-format": "prettier --check .",

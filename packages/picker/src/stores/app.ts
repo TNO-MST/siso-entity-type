@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { size } from "lodash-es";
 import { SisoEnums, SisoEnumsDataType } from "@siso-entity-type/lib";
-import SISO_ENUMS_JSON_URL from "@siso-entity-type/lib/dist/siso-enums.json?url";
+import SISO_ENUMS_JSON_URL from "@siso-entity-type/lib/data/siso-enums.json?url";
 
 export const useAppStore = defineStore("app", {
   state: () => ({
