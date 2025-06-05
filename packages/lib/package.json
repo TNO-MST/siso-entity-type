@@ -1,0 +1,51 @@
+{
+  "name": "@siso-entity-type/lib",
+  "version": "0.1.1",
+  "description": "A library for SISO-REF-010 entity type enumerations",
+  "keywords": [],
+  "files": [
+    "dist/",
+    "!dist/test",
+    "data/"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "access": "public",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rinzeb/siso-entity-type.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rinzeb/siso-entity-type/issues"
+  },
+  "homepage": "https://github.com/rinzeb/siso-entity-type",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "clean-dist": "rimraf dist && rimraf data",
+    "clean-completely": "pnpm run clean-dist && rimraf node_modules",
+    "build": "tsc && cpy data/* ./dist/",
+    "ci": "pnpm run build && pnpm run check-format && pnpm run check-exports && pnpm run test",
+    "format": "prettier --write .",
+    "check-format": "prettier --check .",
+    "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
+    "test": "vitest run",
+    "dev": "vitest",
+    "debug": "vitest",
+    "local-release": "changeset version && changeset publish",
+    "prepublishOnly": "pnpm run ci"
+  },
+  "dependencies": {
+    "debug": "^4.4.1",
+    "fast-xml-parser": "^5.2.3"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.1",
+    "@types/debug": "^4.1.12",
+    "@types/node": "^22.15.29",
+    "cpy-cli": "^5.0.0",
+    "jsdom": "^26.1.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.1"
+  }
+}

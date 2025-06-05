@@ -1,0 +1,56 @@
+{
+  "name": "@siso-entity-type/parser",
+  "version": "0.1.1",
+  "description": "A library for parsing SISO-REF-010 entity type enumerations from xml",
+  "keywords": [],
+  "files": [
+    "dist/",
+    "!dist/test"
+  ],
+  "private": "true",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "access": "public",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rinzeb/siso-entity-type-parser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rinzeb/siso-entity-type-parser/issues"
+  },
+  "homepage": "https://github.com/rinzeb/siso-entity-type-parser",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "ci": "pnpm run build && pnpm run check-format && pnpm run check-exports && pnpm run test",
+    "format": "prettier --write .",
+    "check-format": "prettier --check .",
+    "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
+    "test": "vitest run",
+    "dev": "vitest",
+    "parse": "node dist/bin/parser.cjs",
+    "prepublishOnly": "pnpm run ci",
+    "parse-siso-xml": "pnpm run generate-types && pnpm run build && pnpm run parse",
+    "generate-types": "pnpm run xml-to-json && pnpm run gen-ts && rimraf scripts/parsed-xml.json",
+    "gen-ts": "quicktype -l ts -s json -o src/generated/siso-xml-types.ts ./scripts/parsed-xml.json",
+    "xml-to-json": "node scripts/generate-json.mjs -i ../data/SISO-REF-010.xml -o parsed-xml.json",
+    "clean-dist": "rimraf dist",
+    "clean-completely": "pnpm run -r clean-dist && rimraf node_modules"
+  },
+  "dependencies": {
+    "@siso-entity-type/lib": "^0.1.1",
+    "debug": "^4.4.1",
+    "fast-xml-parser": "^5.2.3"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.1",
+    "@types/debug": "^4.1.12",
+    "@types/node": "^22.15.29",
+    "jsdom": "^26.1.0",
+    "quicktype": "^23.2.6",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.1"
+  }
+}

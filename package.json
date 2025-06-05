@@ -1,0 +1,43 @@
+{
+  "name": "siso-entity-type",
+  "version": "0.1.1",
+  "description": "A library for SISO-REF-010 entity type enumerations",
+  "scripts": {
+    "clean-dist": "pnpm run -r clean-dist",
+    "clean-completely": "pnpm run -r clean-completely && rimraf node_modules",
+    "test": "pnpm run -r test",
+    "build": "pnpm run -r build",
+    "build-parser": "pnpm run --filter @siso-entity-type/parser build",
+    "build-lib": "pnpm run --filter @siso-entity-type/lib build",
+    "build-picker": "pnpm run --filter @siso-entity-type/picker build",
+    "dev": "pnpm run -r dev --parallel",
+    "dev-parser": "pnpm run --filter @siso-entity-type/parser dev",
+    "dev-lib": "pnpm run --filter @siso-entity-type/lib dev",
+    "dev-picker": "pnpm run --filter @siso-entity-type/picker dev",
+    "parse-siso-xml": "pnpm run --filter @siso-entity-type/parser parse-siso-xml && pnpm run build-lib",
+    "ci": "pnpm run --filter @siso-entity-type/lib --filter @siso-entity-type/parser build && pnpm run parse-siso-xml && pnpm run build-lib && pnpm run build-picker",
+    "format": "pnpm run -r format",
+    "check-format": "pnpm run -r check-format",
+    "scripts": "node -e \"console.log(require('.' + require('path').sep + 'package.json').scripts || {})\"",
+    "commands": "node -e \"console.log(require('.' + require('path').sep + 'package.json').scripts || {})\""
+  },
+  "keywords": [
+    "SISO",
+    "REF-010",
+    "Entity-type"
+  ],
+  "author": "R.W. Bruining",
+  "license": "MIT",
+  "devDependencies": {
+    "@changesets/cli": "^2.29.4",
+    "@types/node": "^22.15.29",
+    "cpy-cli": "^5.0.0",
+    "prettier": "^3.5.3",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "pnpm@10.11.0",
+  "workspaces": [
+    "packages/*"
+  ]
+}
