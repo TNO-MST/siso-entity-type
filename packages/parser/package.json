@@ -1,6 +1,6 @@
 {
   "name": "@siso-entity-type/parser",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A library for parsing SISO-REF-010 entity type enumerations from xml",
   "keywords": [],
   "files": [
@@ -33,15 +33,16 @@
     "prepublishOnly": "pnpm run ci",
     "parse-siso-xml": "pnpm run generate-types && pnpm run build && pnpm run parse",
     "generate-types": "pnpm run xml-to-json && pnpm run gen-ts && rimraf scripts/parsed-xml.json",
-    "gen-ts": "quicktype -l ts -s json -o src/generated/siso-xml-types.ts ./scripts/parsed-xml.json",
+    "gen-ts": "quicktype -l ts -s json -o src/generated/siso-xml-types.ts ./scripts/parsed-xml.json && prettier --write src/generated/siso-xml-types.ts",
     "xml-to-json": "node scripts/generate-json.mjs -i ../data/SISO-REF-010.xml -o parsed-xml.json",
     "clean-dist": "rimraf dist",
     "clean-completely": "pnpm run -r clean-dist && rimraf node_modules"
   },
   "dependencies": {
-    "@siso-entity-type/lib": "^0.1.2",
+    "@siso-entity-type/lib": "^0.2.0",
     "debug": "^4.4.1",
-    "fast-xml-parser": "^5.2.3"
+    "fast-xml-parser": "^5.2.3",
+    "long": "^5.3.2"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.1",

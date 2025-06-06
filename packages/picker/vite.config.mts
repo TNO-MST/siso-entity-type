@@ -19,7 +19,7 @@ export default defineConfig({
     outDir: "./dist",
     emptyOutDir: true,
   },
-  assetsInclude: ["**/*.json", "**/*.json.br", "**/*.json.gz"],
+  assetsInclude: ["**/*.json"],
   plugins: [
     compression({
       include: "**/*.json",

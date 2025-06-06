@@ -1,6 +1,7 @@
-import { BITMAP_BYTE, BITMAP_SHORT, type SisoEnumsDataType } from "@siso-entity-type/lib";
+import { BITMAP_BYTE, BITMAP_SHORT, LongKeyMap, Utils, type SisoEnumsDataType } from "@siso-entity-type/lib";
 import { XMLBuilder } from "fast-xml-parser";
 import fs, { existsSync, mkdirSync } from "fs";
+import Long from "long";
 import debugEsm from "debug";
 const debug = debugEsm("SISO:enums");
 
@@ -37,10 +38,10 @@ export const DEFAULT_DEPRECATED = false;
 
 export class SisoEnumsParser {
   private parsedXml: SISOXMLTypes;
-  private mapKind: Map<bigint, string> = new Map();
-  private mapDomain: Map<bigint, string> = new Map();
-  private mapCountry: Map<bigint, string> = new Map();
-  private mapCategory: Map<bigint, string> = new Map();
+  private mapKind: LongKeyMap<string> = new LongKeyMap();
+  private mapDomain: LongKeyMap<string> = new LongKeyMap();
+  private mapCountry: LongKeyMap<string> = new LongKeyMap();
+  private mapCategory: LongKeyMap<string> = new LongKeyMap();
   private applicabilityMap: Map<string, number[]> = new Map();
 
   constructor(parsedXml: SISOXMLTypes) {
@@ -64,19 +65,19 @@ export class SisoEnumsParser {
     return this.mapCategory.size;
   }
 
-  public getCountry(key: bigint) {
+  public getCountry(key: Long) {
     return this.mapCountry.get(key);
   }
 
-  public getCategory(key: bigint) {
+  public getCategory(key: Long) {
     return this.mapCategory.get(key);
   }
 
-  public getKind(key: bigint) {
+  public getKind(key: Long) {
     return this.mapKind.get(key);
   }
 
-  public getDomain(key: bigint) {
+  public getDomain(key: Long) {
     return this.mapDomain.get(key);
   }
 
@@ -252,7 +253,7 @@ export class SisoEnumsParser {
     for (const r of e.enumrow) {
       this.output(this.mapCountry, 0, 0, +r.__value, 0, 0, 0, 0, r.__description);
     }
-    debug(JSON.stringify(Object.fromEntries(this.mapCountry)));
+    debug(JSON.stringify(Object.fromEntries(this.mapCountry.entries())));
   }
 
   private initializeEntityKinds(e: Enum) {
@@ -261,7 +262,7 @@ export class SisoEnumsParser {
     for (const r of e.enumrow) {
       this.output(this.mapKind, +r.__value, 0, 0, 0, 0, 0, 0, r.__description);
     }
-    debug(JSON.stringify(Object.fromEntries(this.mapKind)));
+    debug(JSON.stringify(Object.fromEntries(this.mapKind.entries())));
   }
 
   private initializeDomains(e: Enum) {
@@ -272,7 +273,7 @@ export class SisoEnumsParser {
         this.output(this.mapDomain, kind, +r.__value, 0, 0, 0, 0, 0, r.__description);
       }
     }
-    debug(JSON.stringify(Object.fromEntries(this.mapDomain)));
+    debug(JSON.stringify(Object.fromEntries(this.mapDomain.entries())));
   }
 
   private getKinds(applicability?: string): number[] {
@@ -304,7 +305,7 @@ export class SisoEnumsParser {
   }
 
   private output(
-    map: Map<bigint, string>,
+    map: LongKeyMap<string>,
     kind: number,
     domain: number,
     country: number,
@@ -314,20 +315,8 @@ export class SisoEnumsParser {
     extra: number,
     txt: string,
   ) {
-    const key = this.createKey(kind, domain, country, cat, subcat, spec, extra);
+    const key = Utils.createKey(kind, domain, country, cat, subcat, spec, extra);
     map.set(key, txt);
-  }
-
-  public createKey(kind: number, domain: number, country: number, cat: number, subcat: number, specific: number, extra: number): bigint {
-    const key =
-      ((BigInt(kind) & BITMAP_BYTE) << 56n) |
-      ((BigInt(domain) & BITMAP_BYTE) << 48n) |
-      ((BigInt(country) & BITMAP_SHORT) << 32n) |
-      ((BigInt(cat) & BITMAP_BYTE) << 24n) |
-      ((BigInt(subcat) & BITMAP_BYTE) << 16n) |
-      ((BigInt(specific) & BITMAP_BYTE) << 8n) |
-      (BigInt(extra) & BITMAP_BYTE);
-    return key;
   }
 
   toString() {
@@ -350,7 +339,7 @@ export class SisoEnumsParser {
     );
   }
 
-  private getRecordFromMap(map: Map<bigint, string>) {
+  private getRecordFromMap(map: LongKeyMap<string>) {
     const obj: Record<string, string> = {};
     for (const [key, value] of map.entries()) {
       obj[key.toString()] = value;

@@ -16,7 +16,7 @@
     "dev-picker": "pnpm run --filter @siso-entity-type/picker dev",
     "parse-siso-xml": "pnpm run --filter @siso-entity-type/parser parse-siso-xml && pnpm run build-lib",
     "ci": "pnpm run --filter @siso-entity-type/lib --filter @siso-entity-type/parser build && pnpm run parse-siso-xml && pnpm run build-lib && pnpm run build-picker",
-    "publish-lib": "pnpm publish -filter *lib",
+    "publish": "pnpm publish -r",
     "format": "pnpm run -r format",
     "check-format": "pnpm run -r check-format",
     "scripts": "node -e \"console.log(require('.' + require('path').sep + 'package.json').scripts || {})\"",

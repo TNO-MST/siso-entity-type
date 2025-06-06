@@ -2,6 +2,8 @@ import { createEntityDomainFromNumber, type EntityDomain } from "./entitydomain.
 import { createEntityKindFromNumber, type EntityKind } from "./entitykind.js";
 import debugEsm from "debug";
 import { BITMAP_BYTE, BITMAP_SHORT } from "./sisoenums.js";
+import type Long from "long";
+import { Utils } from "./index.js";
 const debug = debugEsm("SISO:enum");
 
 export interface SisoEnumsDataType {
@@ -21,6 +23,7 @@ export interface SisoEnumType {
   getKind(): EntityKind | undefined;
   getDomain(): EntityDomain | undefined;
   toString(): string;
+  toKey(): Long;
 }
 
 export class SisoEnum implements SisoEnumType {
@@ -54,6 +57,10 @@ export class SisoEnum implements SisoEnumType {
     return `${this.kind}.${this.domain}.${this.country}.${this.category}.${this.subcategory}.${this.specific}.${this.extra}`;
   }
 
+  toKey(): Long {
+    return Utils.createKey(this.kind, this.domain, this.country, this.category, this.subcategory, this.specific, this.extra);
+  }
+
   static fromString(enumString: string, separator: string = "."): SisoEnum {
     if (!enumString || !enumString.includes(separator)) throw new Error(`No valid enum string: ${enumString}`);
     const parts = enumString.split(separator).map((str) => +str);
@@ -62,16 +69,16 @@ export class SisoEnum implements SisoEnumType {
     return new SisoEnum(kind!, domain!, country!, category!, subcategory!, specific!, extra!);
   }
 
-  static fromKey(key: bigint): SisoEnum {
+  static fromKey(key: Long): SisoEnum {
     if (key == null) throw new Error(`No valid enum string: ${key}`);
     return new SisoEnum(
-      Number((key >> 56n) & BITMAP_BYTE),
-      Number((key >> 48n) & BITMAP_BYTE),
-      Number((key >> 32n) & BITMAP_SHORT),
-      Number((key >> 24n) & BITMAP_BYTE),
-      Number((key >> 16n) & BITMAP_BYTE),
-      Number((key >> 8n) & BITMAP_BYTE),
-      Number(key & BITMAP_BYTE),
+      key.shiftRight(56).and(BITMAP_BYTE).toNumber(),
+      key.shiftRight(48).and(BITMAP_BYTE).toNumber(),
+      key.shiftRight(32).and(BITMAP_SHORT).toNumber(),
+      key.shiftRight(24).and(BITMAP_BYTE).toNumber(),
+      key.shiftRight(16).and(BITMAP_BYTE).toNumber(),
+      key.shiftRight(8).and(BITMAP_BYTE).toNumber(),
+      key.and(BITMAP_BYTE).toNumber(),
     );
   }
 }

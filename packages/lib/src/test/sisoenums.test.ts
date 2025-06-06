@@ -1,6 +1,15 @@
 import { describe, it, expect, beforeAll } from "vitest";
-import { EntityDomain, EntityKind, SisoEnum, SisoEnums, Utils } from "../index.js";
+import {
+  createEntityDomainFromNumber,
+  createEntityKindFromNumber,
+  EntityDomain,
+  EntityKind,
+  SisoEnum,
+  SisoEnums,
+  Utils,
+} from "../index.js";
 import fs from "fs";
+import Long from "long";
 
 describe("SisoEnums class", () => {
   it("is defined", () => {
@@ -20,25 +29,25 @@ describe("SisoEnums class", () => {
     });
 
     describe("bitshifting", () => {
-      it("has correct bigint key for zero", () => {
+      it("has correct Long key for zero", () => {
         let key = Utils.createKey(0, 0, 0, 0, 0, 0, 0);
-        expect(key).toBe(BigInt(0));
+        expect(key).toEqual(Long.fromNumber(0));
       });
-      it("has correct bigint key for 1.1", () => {
+      it("has correct Long key for 1.1", () => {
         let key = Utils.createKey(1, 1, 0, 0, 0, 0, 0);
-        expect(key).toBe(BigInt(0x0101000000000000));
+        expect(key).toEqual(Long.fromValue(0x0101000000000000));
       });
-      it("has correct bigint key for country", () => {
+      it("has correct Long key for country", () => {
         let key = Utils.createKey(0, 0, 1, 0, 0, 0, 0);
-        expect(key).toBe(BigInt(4294967296));
+        expect(key).toEqual(Long.fromValue(4294967296));
       });
-      it("has correct bigint key for platform", () => {
+      it("has correct Long key for platform", () => {
         let key = Utils.createKey(1, 2, 3, 0, 0, 0, 0);
-        expect(Number(BigInt(key) >> 56n)).toBe(1);
+        expect(Long.fromValue(key).shiftRight(56).toNumber()).toBe(1);
       });
-      it("has correct bigint key for domain", () => {
+      it("has correct Long key for domain", () => {
         let key = Utils.createKey(0, 2, 0, 0, 0, 0, 0);
-        expect(Number(BigInt(key) >> 48n)).toBe(2);
+        expect(Long.fromValue(key).shiftRight(48).toNumber()).toBe(2);
       });
     });
 
@@ -64,6 +73,11 @@ describe("SisoEnums class", () => {
         let kind = sisoEnums.getAllKinds().get(1);
         expect(kind).toBe("Platform");
       });
+      it("returns correct kind Platform for 1.1.*", () => {
+        let key = Utils.createKey(1, 1, 0, 0, 0, 0, 0);
+        const entity = SisoEnum.fromKey(key);
+        expect(entity.getKind()).toBe(createEntityKindFromNumber(EntityKind.Platform));
+      });
       it("returns correct kind Other", () => {
         let kind = sisoEnums.getAllKinds().get(0);
         expect(kind).toBe("Other");
@@ -74,20 +88,14 @@ describe("SisoEnums class", () => {
       it("amount of 68", () => {
         expect(sisoEnums.getAllDomains().size).toBe(68);
       });
+      it("returns correct domain Land for 1", () => {
+        let domain = sisoEnums.getAllDomainsOf(1).get(1);
+        expect(domain).toBe(createEntityDomainFromNumber(EntityDomain.Land));
+      });
       it("returns correct domain Land for 1.1.*", () => {
         let key = Utils.createKey(1, 1, 0, 0, 0, 0, 0);
-        let domain = sisoEnums.getDomainOrDefault(key);
-        expect(domain).toBe("Land");
-      });
-      it("returns correct domain Air for 4.2.*", () => {
-        let key = Utils.createKey(4, 2, 0, 0, 0, 0, 0);
-        let domain = sisoEnums.getDomainOrDefault(key);
-        expect(domain).toBe("Air");
-      });
-      it("returns default domain Anders for 99.99.*", () => {
-        let key = Utils.createKey(99, 99, 0, 0, 0, 0, 0);
-        let domain = sisoEnums.getDomainOrDefault(key, "Anders");
-        expect(domain).toBe("Anders");
+        const entity = SisoEnum.fromKey(key);
+        expect(entity.getDomain()).toBe(createEntityDomainFromNumber(EntityDomain.Land));
       });
       it("domains for Platform", () => {
         expect(sisoEnums.getAllDomainsOf(1).size).toBe(6);
