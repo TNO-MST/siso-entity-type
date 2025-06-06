@@ -11,15 +11,23 @@ Organization (SISO)](https://www.sisostds.org/Home.aspx) and is widely used in d
 
 The [SISO-REF-010-2024](https://www.sisostandards.org/page/ReferenceDocuments) has a copyright © 2024 by the Simulation Interoperability Standards Organization, Inc.
 
-## Usage
+## Description
 
 The workspace exists of three packages:
 
- - `lib`: The actual library containing the SISO enumerations and their descriptions
- - `parser`: A helper application that parses the SISO-REF-010.xml to a smaller JSON file to be used by the lib
- - `picker`: A GUI tool that provides an entity type picker and search functionality making use of the lib
+ - [`lib`](packages/lib): The actual library containing the parsed SISO enumerations and their descriptions
+ - [`picker`](packages/picker): A GUI tool that provides an entity type picker and search functionality making use of the lib
+ - [`parser`](packages/parser): A helper application that parses the SISO-REF-010.xml to a smaller JSON file to be used by the lib
 
-To use SISO-REF-010 enums library in your project, follow these steps:
+In most use-cases the `lib` package is all you need for generating and parsing Entity Type enumerations. Simply follow the usage instructions of the [lib-package](packages/lib/README.md). 
+
+If you want to have a simple GUI that helps users to pick entity-types by listing all available kinds, domains, categories, etc., you can use the [picker](packages/picker/README.md). 
+
+When you want to parse another xml document with enumerations that follows the same SISO-REF-010 xsd schema, e.g. an update or extension, you can use the parser to generate a new `lib` package with the contents of the new enumerations. For this purpose, use the [parser](packages/parser/README.md).
+
+## Installation
+
+To install the SISO-REF-010 enums library, follow these steps:
 
 1. Install the workspace dependencies using pnpm:
 
@@ -40,6 +48,7 @@ This will perform the following steps:
 5. Build the `picker` application.
 
 See the README of the respective packages for the instructions on how to use and develop them.
+
 
 ## License
 
