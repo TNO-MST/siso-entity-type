@@ -85,7 +85,6 @@ getAllSubcategoriesOf(kind: number, domain: number, country: number, category: n
 getAllSpecificsOf(kind: number, domain: number, country: number, category: number, subcategory: number): Map<number, string>;
 getAllExtrasOf(kind: number, domain: number, country: number, cat: number, subcat: number, specific: number): Map<number, string>;
 searchDescription(query: string): Record<string, string>;
-createKeyFor(se: SisoEnum): Long;
 getDescriptionOf(sisoEnum: SisoEnum): string;
 ```
 

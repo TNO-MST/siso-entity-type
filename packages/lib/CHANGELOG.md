@@ -1,5 +1,11 @@
 # @siso-entity-type/lib
 
+## 0.2.1
+
+### Patch Changes
+
+- Add helper functions to get the names of kind, domain, category, etc.
+
 ## 0.2.0
 
 ### Minor Changes

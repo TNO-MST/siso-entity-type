@@ -1,5 +1,13 @@
 # @siso-entity-type/picker
 
+## 0.2.1
+
+### Patch Changes
+
+- Add helper functions to get the names of kind, domain, category, etc.
+- Updated dependencies
+  - @siso-entity-type/lib@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes

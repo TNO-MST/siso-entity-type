@@ -129,8 +129,43 @@ export class SisoEnums {
     );
   }
 
-  public getCountry(country: number): string {
+  public getCountryName(countryOrEntity: SisoEnum | number): string {
+    const country = typeof countryOrEntity === "number" ? countryOrEntity : countryOrEntity.country;
     return this.getAllCountries().get(country) || `Invalid country ${country}`;
+  }
+
+  public getKindName(kindOrEntity: SisoEnum | number): string {
+    const kind = typeof kindOrEntity === "number" ? kindOrEntity : kindOrEntity.kind;
+    return this.getAllKinds().get(kind) || `Invalid kind ${kind}`;
+  }
+
+  public getDomainName(ent: SisoEnum): string {
+    return this.getAllDomainsOf(ent.kind).get(ent.domain) || `Invalid domain ${ent.domain}`;
+  }
+
+  public getCategoryName(ent: SisoEnum): string {
+    return this.getAllCategoriesOf(ent.kind, ent.domain, ent.country).get(ent.category) || `Invalid category ${ent.category}`;
+  }
+
+  public getSubcategoryName(ent: SisoEnum): string {
+    return (
+      this.getAllSubcategoriesOf(ent.kind, ent.domain, ent.country, ent.category).get(ent.subcategory) ||
+      `Invalid subcategory ${ent.subcategory}`
+    );
+  }
+
+  public getSpecificName(ent: SisoEnum): string {
+    return (
+      this.getAllSpecificsOf(ent.kind, ent.domain, ent.country, ent.category, ent.subcategory).get(ent.specific) ||
+      `Invalid specific ${ent.specific}`
+    );
+  }
+
+  public getExtraName(ent: SisoEnum): string {
+    return (
+      this.getAllExtrasOf(ent.kind, ent.domain, ent.country, ent.category, ent.subcategory, ent.specific).get(ent.extra) ||
+      `Invalid extra ${ent.extra}`
+    );
   }
 
   public getAllCategoriesOf(kind: number, domain: number, country: number): Map<number, string> {
@@ -205,13 +240,7 @@ export class SisoEnums {
     );
   }
 
-  createKeyFor(se: SisoEnum): Long {
-    return Utils.createKey(se.kind, se.domain, se.country, se.category, se.subcategory, se.specific, se.extra);
-  }
-
   getDescriptionOf(sisoEnum: SisoEnum): string {
-    const key = this.createKeyFor(sisoEnum);
-    const cat = this.getOrDefault(key);
-    return cat;
+    return this.getOrDefault(sisoEnum.toKey());
   }
 }

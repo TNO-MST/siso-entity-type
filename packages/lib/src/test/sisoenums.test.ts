@@ -56,11 +56,11 @@ describe("SisoEnums class", () => {
         expect(sisoEnums.getAllCountries().size).toBe(279);
       });
       it("returns correct country Afghanistan", () => {
-        let country = sisoEnums.getCountry(1);
+        let country = sisoEnums.getCountryName(1);
         expect(country).toBe("Afghanistan (AFG)");
       });
       it("returns correct country Netherlands", () => {
-        let country = sisoEnums.getCountry(153);
+        let country = sisoEnums.getCountryName(153);
         expect(country).toBe("Netherlands (NLD)");
       });
     });
