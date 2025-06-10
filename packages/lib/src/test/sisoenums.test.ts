@@ -246,7 +246,7 @@ describe("SisoEnums class", () => {
       it("except when not defined 2.9.225.2.75.88.0", () => {
         let key = Utils.createKey(2, 9, 225, 2, 75, 88, 0);
         const entity = SisoEnum.fromKey(key);
-        expect(sisoEnums.getDescriptionOf(entity, true)).toEqual("Ballistic / Mk-84 / Invalid specific 88 / Invalid extra 0");
+        expect(sisoEnums.getDescriptionOf(entity, true)).toEqual("Ballistic / Mk-84 / Unknown specific 88 / Unknown extra 0");
         expect(sisoEnums.getDescriptionOf(entity, false)).toEqual("Mk-84");
       });
     });
