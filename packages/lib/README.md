@@ -128,8 +128,8 @@ SISO-entity-type-lib is developed in TypeScript. To contribute or modify the lib
 
 #### The SISO enums json file is quite large, how can I reduce its size?
 
-The JSON file that is bundled with the library is ~2MB large. When using `vite` and a modern webserver for hosting your production code,
-compression can be used to reduce this size to ~370kB. This can be achieved as follows:
+The JSON file that is bundled with the library is ~1MB large. When using `vite` and a modern webserver for hosting your production code,
+compression can be used to reduce this size to ~310kB. This can be achieved as follows:
 
 1. Compress the JSON-file when building your application for production:
 
