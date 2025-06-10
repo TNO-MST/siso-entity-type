@@ -1,5 +1,11 @@
 # @siso-entity-type/lib
 
+## 0.3.0
+
+### Minor Changes
+
+- e3d80ad: Use unqualified names to store the enum descriptions
+
 ## 0.2.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@siso-entity-type/parser",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A library for parsing SISO-REF-010 entity type enumerations from xml",
   "keywords": [],
   "files": [
@@ -39,7 +39,7 @@
     "clean-completely": "pnpm run -r clean-dist && rimraf node_modules"
   },
   "dependencies": {
-    "@siso-entity-type/lib": "^0.2.1",
+    "@siso-entity-type/lib": "^0.3.0",
     "debug": "^4.4.1",
     "fast-xml-parser": "^5.2.3",
     "long": "^5.3.2"
