@@ -77,6 +77,7 @@ describe("SisoEnums class", () => {
         let key = Utils.createKey(1, 1, 0, 0, 0, 0, 0);
         const entity = SisoEnum.fromKey(key);
         expect(entity.getKind()).toBe(createEntityKindFromNumber(EntityKind.Platform));
+        expect(sisoEnums.getKindName(entity)).toBe("Platform");
       });
       it("returns correct kind Other", () => {
         let kind = sisoEnums.getAllKinds().get(0);
@@ -96,6 +97,7 @@ describe("SisoEnums class", () => {
         let key = Utils.createKey(1, 1, 0, 0, 0, 0, 0);
         const entity = SisoEnum.fromKey(key);
         expect(entity.getDomain()).toBe(createEntityDomainFromNumber(EntityDomain.Land));
+        expect(sisoEnums.getDomainName(entity)).toBe("Land");
       });
       it("domains for Platform", () => {
         expect(sisoEnums.getAllDomainsOf(1).size).toBe(6);
@@ -121,20 +123,51 @@ describe("SisoEnums class", () => {
         expect(sisoEnums.getAllCategoriesOf(EntityKind.Environmental, 3, 0).values()).toContain("Island");
         expect(sisoEnums.getAllCategoriesOf(4, 3, 0).values()).toContain("Sea State");
       });
+      it("returns correct category Building for 5.1.0.2.*", () => {
+        let key = Utils.createKey(5, 1, 0, 2, 0, 0, 0);
+        const entity = SisoEnum.fromKey(key);
+        expect(entity.category).toBe(2);
+        expect(sisoEnums.getCategoryName(entity)).toBe("Building");
+      });
+
+      it("returns correct category Building for 5.1.0.2.1.*", () => {
+        let key = Utils.createKey(5, 1, 0, 2, 1, 0, 0);
+        const entity = SisoEnum.fromKey(key);
+        expect(entity.category).toBe(2);
+        expect(sisoEnums.getCategoryName(entity)).toBe("Building");
+      });
     });
 
     describe("has correct subcategories", () => {
       it("SS subcategories for Netherlands", () => {
         let subcats = Array.from(sisoEnums.getAllSubcategoriesOf(1, 4, 153, 5).values());
-        expect(subcats.length).toBe(3);
+        expect(subcats.length).toBe(2);
         expect(subcats.some((v) => v.includes("Hai Lung Class"))).toBeTruthy();
         expect(subcats.some((v) => v.includes("Walrus Class"))).toBeTruthy();
       });
       it("types of Aircraft Wreckage", () => {
         let subcats = Array.from(sisoEnums.getAllSubcategoriesOf(5, 1, 0, 31).values());
-        expect(subcats.length).toBe(3);
+        expect(subcats.length).toBe(2);
         expect(subcats.some((v) => v.includes("Fixed Wing"))).toBeTruthy();
         expect(subcats.some((v) => v.includes("Rotary Wing"))).toBeTruthy();
+      });
+      it("returns correct Subcategory Building, Other for 5.1.0.2.0.*", () => {
+        let key = Utils.createKey(5, 1, 0, 2, 0, 0, 0);
+        const entity = SisoEnum.fromKey(key);
+        expect(entity.subcategory).toBe(0);
+        expect(sisoEnums.getSubcategoryName(entity)).toBe("Building, Other");
+      });
+      it("returns correct Subcategory One-story for 5.1.0.2.1.*", () => {
+        let key = Utils.createKey(5, 1, 0, 2, 1, 0, 0);
+        const entity = SisoEnum.fromKey(key);
+        expect(entity.subcategory).toBe(1);
+        expect(sisoEnums.getSubcategoryName(entity)).toBe("One-story");
+      });
+      it("returns correct Subcategory One-story for 5.1.0.2.1.1.*", () => {
+        let key = Utils.createKey(5, 1, 0, 2, 1, 1, 0);
+        const entity = SisoEnum.fromKey(key);
+        expect(entity.subcategory).toBe(1);
+        expect(sisoEnums.getSubcategoryName(entity)).toBe("One-story");
       });
     });
 
@@ -146,6 +179,24 @@ describe("SisoEnums class", () => {
         expect(specifics.some((v) => v.includes("AH-129C Mangusta"))).toBeTruthy();
         expect(specifics.some((v) => v.includes("AH-129D Mangusta"))).toBeTruthy();
       });
+      it("returns correct Specific Building, Other for 5.1.0.2.0.*", () => {
+        let key = Utils.createKey(5, 1, 0, 2, 0, 0, 0);
+        const entity = SisoEnum.fromKey(key);
+        expect(entity.specific).toBe(0);
+        expect(sisoEnums.getSpecificName(entity)).toBe("Building, Other");
+      });
+      it("returns correct Specific One-story for 5.1.0.2.1.0.*", () => {
+        let key = Utils.createKey(5, 1, 0, 2, 1, 0, 0);
+        const entity = SisoEnum.fromKey(key);
+        expect(entity.specific).toBe(0);
+        expect(sisoEnums.getSpecificName(entity)).toBe("One-story");
+      });
+      it("returns correct Specific One-story for 5.1.0.2.1.1.*", () => {
+        let key = Utils.createKey(5, 1, 0, 2, 1, 1, 0);
+        const entity = SisoEnum.fromKey(key);
+        expect(entity.specific).toBe(1);
+        expect(sisoEnums.getSpecificName(entity)).toBe("Trapezoidal Aircraft Shelter (Trihangar)");
+      });
     });
 
     describe("has correct extras", () => {
@@ -156,6 +207,12 @@ describe("SisoEnums class", () => {
         expect(extras.some((v) => v.includes("MC-12S-1 EMARSS-G"))).toBeTruthy();
         expect(extras.some((v) => v.includes("MC-12S-2 EMARSS-M"))).toBeTruthy();
         expect(extras.some((v) => v.includes("MC-12S-3 EMARSS-V"))).toBeTruthy();
+      });
+      it("returns correct Extra Impact Fuse for 2.9.225.2.75.2.1", () => {
+        let key = Utils.createKey(2, 9, 225, 2, 75, 2, 1);
+        const entity = SisoEnum.fromKey(key);
+        expect(entity.extra).toBe(1);
+        expect(sisoEnums.getExtraName(entity)).toBe("Impact fuse");
       });
     });
 
@@ -173,6 +230,27 @@ describe("SisoEnums class", () => {
       });
     });
 
+    describe("provides correct descriptions", () => {
+      it("for 2.9.225.2.75.2.1", () => {
+        let key = Utils.createKey(2, 9, 225, 2, 75, 2, 1);
+        const entity = SisoEnum.fromKey(key);
+        expect(sisoEnums.getDescriptionOf(entity, true)).toEqual("Ballistic / Mk-84 / MK-84 Low Drag General Purpose / Impact fuse");
+        expect(sisoEnums.getDescriptionOf(entity, false)).toEqual("Impact fuse");
+      });
+      it("for 2.9.225.2.75.2.0", () => {
+        let key = Utils.createKey(2, 9, 225, 2, 75, 2, 0);
+        const entity = SisoEnum.fromKey(key);
+        expect(sisoEnums.getDescriptionOf(entity, true)).toEqual("Ballistic / Mk-84 / MK-84 Low Drag General Purpose");
+        expect(sisoEnums.getDescriptionOf(entity, false)).toEqual("MK-84 Low Drag General Purpose");
+      });
+      it("except when not defined 2.9.225.2.75.88.0", () => {
+        let key = Utils.createKey(2, 9, 225, 2, 75, 88, 0);
+        const entity = SisoEnum.fromKey(key);
+        expect(sisoEnums.getDescriptionOf(entity, true)).toEqual("Ballistic / Mk-84 / Invalid specific 88 / Invalid extra 0");
+        expect(sisoEnums.getDescriptionOf(entity, false)).toEqual("Mk-84");
+      });
+    });
+
     describe("SisoEnum", () => {
       it("construct from string", () => {
         let enum1 = SisoEnum.fromString("1.2.13.1.1.2.0");
@@ -184,7 +262,8 @@ describe("SisoEnums class", () => {
         expect(enum1.subcategory).toEqual(1);
         expect(enum1.specific).toEqual(2);
         expect(enum1.extra).toEqual(0);
-        expect(sisoEnums.getDescriptionOf(enum1)).toEqual("Fighter/Air Defense / McDonnell-Douglas F/A-18 Hornet / F/A-18B");
+        expect(sisoEnums.getDescriptionOf(enum1)).toEqual("F/A-18B");
+        expect(sisoEnums.getDescriptionOf(enum1, true)).toEqual("Fighter/Air Defense / McDonnell-Douglas F/A-18 Hornet / F/A-18B");
       });
     });
   });

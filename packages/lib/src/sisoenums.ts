@@ -27,6 +27,8 @@ export class SisoEnums {
   private mapDomain: LongKeyMap<string> = new LongKeyMap();
   private mapCountry: LongKeyMap<string> = new LongKeyMap();
   private mapCategory: LongKeyMap<string> = new LongKeyMap();
+  private mapSubcategory: LongKeyMap<string> = new LongKeyMap();
+  private mapFullyQualifiedDescription: LongKeyMap<string> = new LongKeyMap();
 
   public get countryCount() {
     return this.mapCountry.size;
@@ -42,6 +44,10 @@ export class SisoEnums {
 
   public get categoryCount() {
     return this.mapCategory.size;
+  }
+
+  public get subcategoryCount() {
+    return this.mapSubcategory.size;
   }
 
   constructor(enumsMap?: SisoEnumsDataType) {
@@ -61,11 +67,14 @@ export class SisoEnums {
     for (const [key, val] of Object.entries(enumsMap.countries)) {
       this.mapCountry.set(Long.fromString(key), val);
     }
+    for (const [key, val] of Object.entries(enumsMap.domains)) {
+      this.mapDomain.set(Long.fromString(key), val);
+    }
     for (const [key, val] of Object.entries(enumsMap.categories)) {
       this.mapCategory.set(Long.fromString(key), val);
     }
-    for (const [key, val] of Object.entries(enumsMap.domains)) {
-      this.mapDomain.set(Long.fromString(key), val);
+    for (const [key, val] of Object.entries(enumsMap.subcategories)) {
+      this.mapSubcategory.set(Long.fromString(key), val);
     }
     // Kinds are not loaded from the SISO enums datafile, but from the hardcoded EntityKind enum
     for (const [key, val] of Object.entries(EntityKindDescriptions)) {
@@ -75,25 +84,42 @@ export class SisoEnums {
     debug(`Processed ${this.kindCount} kinds`);
     debug(`Processed ${this.domainCount} domains`);
     debug(`Processed ${this.categoryCount} categories`);
+    debug(`Processed ${this.subcategoryCount} subcategories`);
   }
 
-  public getOrDefault(entityType: Long, defaultValue: string = "No description found"): string {
-    let text =
-      this.mapCategory.get(entityType) ??
-      this.mapCategory.get(entityType.and(BITMAP_0_CAT_SUBCAT_SPECIFIC_EXTRA)) ??
-      this.mapCategory.get(entityType.and(BITMAP_COUNTRY_CAT_SUBCAT_SPECIFIC)) ??
-      this.mapCategory.get(entityType.and(BITMAP_0_CAT_SUBCAT_SPECIFIC)) ??
-      this.mapCategory.get(entityType.and(BITMAP_COUNTRY_CAT_SUBCAT)) ??
-      this.mapCategory.get(entityType.and(BITMAP_0_CAT_SUBCAT)) ??
-      this.mapCategory.get(entityType.and(BITMAP_COUNTRY_CAT)) ??
-      this.mapCategory.get(entityType.and(BITMAP_KIND_DOMAIN_COUNTRY)) ??
-      this.mapCategory.get(entityType.and(BITMAP_0_CAT)) ??
-      this.mapCategory.get(entityType.and(BITMAP_KIND_DOMAIN)) ??
-      defaultValue;
+  private getOrDefault(entityType: SisoEnum, fullyQualified: boolean = false, defaultValue: string = "-"): string {
+    const key = entityType.toKey();
+    let text = null;
+    if (fullyQualified) {
+      if (this.mapFullyQualifiedDescription.has(key)) {
+        text = this.mapFullyQualifiedDescription.get(key);
+      } else {
+        const category = this.getCategoryName(entityType);
+        const subcategory = this.getSubcategoryName(entityType);
+        const specific = this.getSpecificName(entityType);
+        const extra = this.getExtraName(entityType);
+        text = [category, subcategory, specific, extra]
+          .filter((val, idx, arr) => val != null && (idx === 0 || val !== arr[idx - 1]))
+          .join(" / ");
+        text != null && this.mapFullyQualifiedDescription.set(key, text);
+      }
+    } else {
+      text =
+        this.mapSubcategory.get(key) ??
+        this.mapSubcategory.get(key.and(BITMAP_0_CAT_SUBCAT_SPECIFIC_EXTRA)) ??
+        this.mapSubcategory.get(key.and(BITMAP_COUNTRY_CAT_SUBCAT_SPECIFIC)) ??
+        this.mapSubcategory.get(key.and(BITMAP_0_CAT_SUBCAT_SPECIFIC)) ??
+        this.mapSubcategory.get(key.and(BITMAP_COUNTRY_CAT_SUBCAT)) ??
+        this.mapSubcategory.get(key.and(BITMAP_0_CAT_SUBCAT)) ??
+        this.mapSubcategory.get(key.and(BITMAP_COUNTRY_CAT)) ??
+        this.mapSubcategory.get(key.and(BITMAP_KIND_DOMAIN_COUNTRY)) ??
+        this.mapSubcategory.get(key.and(BITMAP_0_CAT)) ??
+        this.mapSubcategory.get(key.and(BITMAP_KIND_DOMAIN)) ??
+        defaultValue;
+    }
     if (text == null) {
       text = defaultValue;
     }
-    this.mapCategory.set(entityType, text);
     return text;
   }
 
@@ -129,42 +155,46 @@ export class SisoEnums {
     );
   }
 
+  public getDescriptionOf(sisoEnum: SisoEnum, fullyQualified: boolean = false): string {
+    return this.getOrDefault(sisoEnum, fullyQualified);
+  }
+
   public getCountryName(countryOrEntity: SisoEnum | number): string {
     const country = typeof countryOrEntity === "number" ? countryOrEntity : countryOrEntity.country;
-    return this.getAllCountries().get(country) || `Invalid country ${country}`;
+    return this.getAllCountries().get(country) || `Unknown country ${country}`;
   }
 
   public getKindName(kindOrEntity: SisoEnum | number): string {
     const kind = typeof kindOrEntity === "number" ? kindOrEntity : kindOrEntity.kind;
-    return this.getAllKinds().get(kind) || `Invalid kind ${kind}`;
+    return this.getAllKinds().get(kind) || `Unknown kind ${kind}`;
   }
 
   public getDomainName(ent: SisoEnum): string {
-    return this.getAllDomainsOf(ent.kind).get(ent.domain) || `Invalid domain ${ent.domain}`;
+    return this.getAllDomainsOf(ent.kind).get(ent.domain) || `Unknown domain ${ent.domain}`;
   }
 
   public getCategoryName(ent: SisoEnum): string {
-    return this.getAllCategoriesOf(ent.kind, ent.domain, ent.country).get(ent.category) || `Invalid category ${ent.category}`;
+    return this.getAllCategoriesOf(ent.kind, ent.domain, ent.country).get(ent.category) || `Unknown category ${ent.category}`;
   }
 
   public getSubcategoryName(ent: SisoEnum): string {
     return (
       this.getAllSubcategoriesOf(ent.kind, ent.domain, ent.country, ent.category).get(ent.subcategory) ||
-      `Invalid subcategory ${ent.subcategory}`
+      `Unknown subcategory ${ent.subcategory}`
     );
   }
 
   public getSpecificName(ent: SisoEnum): string {
     return (
       this.getAllSpecificsOf(ent.kind, ent.domain, ent.country, ent.category, ent.subcategory).get(ent.specific) ||
-      `Invalid specific ${ent.specific}`
+      `Unknown specific ${ent.specific}`
     );
   }
 
   public getExtraName(ent: SisoEnum): string {
     return (
       this.getAllExtrasOf(ent.kind, ent.domain, ent.country, ent.category, ent.subcategory, ent.specific).get(ent.extra) ||
-      `Invalid extra ${ent.extra}`
+      `Unknown extra ${ent.extra}`
     );
   }
 
@@ -186,7 +216,7 @@ export class SisoEnums {
 
   public getAllSubcategoriesOf(kind: number, domain: number, country: number, category: number): Map<number, string> {
     return new Map(
-      [...this.mapCategory.entries()]
+      [...this.mapSubcategory.entries()]
         .filter(([k]) => k.shiftRight(56).and(BITMAP_BYTE).toNumber() === kind)
         .filter(([k]) => k.shiftRight(48).and(BITMAP_BYTE).toNumber() === domain)
         .filter(([k]) => {
@@ -202,7 +232,7 @@ export class SisoEnums {
 
   public getAllSpecificsOf(kind: number, domain: number, country: number, category: number, subcategory: number): Map<number, string> {
     return new Map(
-      [...this.mapCategory.entries()]
+      [...this.mapSubcategory.entries()]
         .filter(([k]) => k.shiftRight(56).and(BITMAP_BYTE).toNumber() === kind)
         .filter(([k]) => k.shiftRight(48).and(BITMAP_BYTE).toNumber() === domain)
         .filter(([k]) => {
@@ -218,7 +248,7 @@ export class SisoEnums {
 
   public getAllExtrasOf(kind: number, domain: number, country: number, cat: number, subcat: number, specific: number): Map<number, string> {
     return new Map(
-      [...this.mapCategory.entries()]
+      [...this.mapSubcategory.entries()]
         .filter(([k]) => k.shiftRight(56).and(BITMAP_BYTE).toNumber() === kind)
         .filter(([k]) => k.shiftRight(48).and(BITMAP_BYTE).toNumber() === domain)
         .filter(([k]) => {
@@ -234,13 +264,9 @@ export class SisoEnums {
 
   public searchDescription(query: string): Record<string, string> {
     return Object.fromEntries(
-      [...this.mapCategory.entries()]
+      [...this.mapSubcategory.entries()]
         .filter(([, v]) => v.toLowerCase().includes(query.toLowerCase()))
         .map((entry) => [SisoEnum.fromKey(entry[0]).toString(), entry[1]]),
     );
-  }
-
-  getDescriptionOf(sisoEnum: SisoEnum): string {
-    return this.getOrDefault(sisoEnum.toKey());
   }
 }

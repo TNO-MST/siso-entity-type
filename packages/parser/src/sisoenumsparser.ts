@@ -32,7 +32,7 @@ const UID_SUPPLYKIND_DOMAIN = 600;
 const UID_COUNTRY = 29;
 
 // Default settings for the configuration options.
-export const DEFAULT_QUALIFIED = true;
+export const DEFAULT_QUALIFIED = false;
 export const DEFAULT_DELIMITER = " / ";
 export const DEFAULT_DEPRECATED = false;
 
@@ -42,6 +42,7 @@ export class SisoEnumsParser {
   private mapDomain: LongKeyMap<string> = new LongKeyMap();
   private mapCountry: LongKeyMap<string> = new LongKeyMap();
   private mapCategory: LongKeyMap<string> = new LongKeyMap();
+  private mapSubcategory: LongKeyMap<string> = new LongKeyMap();
   private applicabilityMap: Map<string, number[]> = new Map();
 
   constructor(parsedXml: SISOXMLTypes) {
@@ -65,12 +66,20 @@ export class SisoEnumsParser {
     return this.mapCategory.size;
   }
 
+  public get subcategoryCount() {
+    return this.mapSubcategory.size;
+  }
+
   public getCountry(key: Long) {
     return this.mapCountry.get(key);
   }
 
   public getCategory(key: Long) {
     return this.mapCategory.get(key);
+  }
+
+  public getSubcategory(key: Long) {
+    return this.mapSubcategory.get(key);
   }
 
   public getKind(key: Long) {
@@ -88,6 +97,7 @@ export class SisoEnumsParser {
     debug(`Processed ${this.kindCount} kinds`);
     debug(`Processed ${this.domainCount} domains`);
     debug(`Processed ${this.categoryCount} categories`);
+    debug(`Processed ${this.subcategoryCount} subcategories`);
   }
 
   private initializeEnums() {
@@ -169,8 +179,8 @@ export class SisoEnumsParser {
     scc: SubcategoryClass | CategoryElement | PurpleSubcategory,
     text: string,
   ) {
-    const description = `${text}${DEFAULT_DELIMITER}${scc.__description}`;
-    this.output(this.mapCategory, kind, domain, country, category, +scc.__value, 0, 0, description);
+    const description = DEFAULT_QUALIFIED ? `${text}${DEFAULT_DELIMITER}${scc.__description}` : scc.__description;
+    this.output(this.mapSubcategory, kind, domain, country, category, +scc.__value, 0, 0, description);
     if (scc.specific) {
       this.initializeSpecific(kind, domain, country, category, +scc.__value, scc.specific, description);
     }
@@ -205,8 +215,8 @@ export class SisoEnumsParser {
     spec: SubcategoryClass | CategoryElement,
     text: string,
   ) {
-    const description = `${text}${DEFAULT_DELIMITER}${spec.__description}`;
-    this.output(this.mapCategory, kind, domain, country, category, subcategory, +spec.__value, 0, description);
+    const description = DEFAULT_QUALIFIED ? `${text}${DEFAULT_DELIMITER}${spec.__description}` : spec.__description;
+    this.output(this.mapSubcategory, kind, domain, country, category, subcategory, +spec.__value, 0, description);
     if (spec.extra) {
       this.initializeExtra(kind, domain, country, category, subcategory, +spec.__value, spec.extra, description);
     }
@@ -243,8 +253,8 @@ export class SisoEnumsParser {
     extra: SubcategoryClass | CategoryElement | AllSpecificTypes | JammerKind,
     text: string,
   ) {
-    const description = `${text}${DEFAULT_DELIMITER}${extra.__description}`;
-    this.output(this.mapCategory, kind, domain, country, category, subcategory, specific, +extra.__value, description);
+    const description = DEFAULT_QUALIFIED ? `${text}${DEFAULT_DELIMITER}${extra.__description}` : extra.__description;
+    this.output(this.mapSubcategory, kind, domain, country, category, subcategory, specific, +extra.__value, description);
   }
 
   private initializeCountries(e: Enum) {
@@ -327,6 +337,7 @@ export class SisoEnumsParser {
 
   writeOutputFiles(folder: string) {
     const obj = {} as SisoEnumsDataType;
+    obj.subcategories = this.getRecordFromMap(this.mapSubcategory);
     obj.categories = this.getRecordFromMap(this.mapCategory);
     obj.countries = this.getRecordFromMap(this.mapCountry);
     obj.domains = this.getRecordFromMap(this.mapDomain);
@@ -334,7 +345,8 @@ export class SisoEnumsParser {
     const outputFile = join(folder, "siso-enums.json");
     fs.writeFileSync(outputFile, JSON.stringify(obj));
     console.log(
-      `Wrote ${Object.keys(obj.domains).length} domains, ${Object.keys(obj.categories).length} categories`,
+      `Wrote ${Object.keys(obj.domains).length} domains, ${Object.keys(obj.categories).length} categories, `,
+      `${Object.keys(obj.categories).length} categories`,
       `and ${Object.keys(obj.countries).length} countries to ${join(outputFile)}`,
     );
   }

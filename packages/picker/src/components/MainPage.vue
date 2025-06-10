@@ -123,7 +123,7 @@
                   clearable
                   hide-details
                   v-model="localExtra"
-                  @select="updateExtra"
+                  @update:modelValue="updateExtra"
                   :items="extras"
                   label="Select extra"
                   outlined
@@ -271,7 +271,9 @@ const updateSpecific = async () => {
   localExtra.value = null;
   updateExtra();
 };
-const updateExtra = async () => store.selectExtra(localExtra.value);
+const updateExtra = async () => {
+  store.selectExtra(localExtra.value);
+};
 
 const handleClick = async (evt: any, row: any) => {
   const { entType, descr } = row.item;

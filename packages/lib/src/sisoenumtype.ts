@@ -7,6 +7,7 @@ import { Utils } from "./index.js";
 const debug = debugEsm("SISO:enum");
 
 export interface SisoEnumsDataType {
+  subcategories: Record<string, string>;
   categories: Record<string, string>;
   countries: Record<string, string>;
   domains: Record<string, string>;

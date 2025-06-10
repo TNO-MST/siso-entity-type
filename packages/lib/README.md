@@ -73,19 +73,27 @@ The `SisoEnums` class is the main entrypoint for the most commonly-used entity-t
 type `SisoEnumsDataType`. Typically, the `@siso-entity-type/lib/data/siso-enums.json` file that is provided with the library is used.
 
 ```typescript
-initialize(enumsMap: SisoEnumsDataType): Promise<void>;
-getOrDefault(entityType: Long, defaultValue?: string): string;
-getAllCountries(): Map<number, string>;
-getAllDomains(): Map<number, string>;
-getAllKinds(): Map<number, string>;
-getAllDomainsOf(kind: number): Map<number, string>;
-getCountry(country: number): string;
-getAllCategoriesOf(kind: number, domain: number, country: number): Map<number, string>;
-getAllSubcategoriesOf(kind: number, domain: number, country: number, category: number): Map<number, string>;
-getAllSpecificsOf(kind: number, domain: number, country: number, category: number, subcategory: number): Map<number, string>;
-getAllExtrasOf(kind: number, domain: number, country: number, cat: number, subcat: number, specific: number): Map<number, string>;
-searchDescription(query: string): Record<string, string>;
-getDescriptionOf(sisoEnum: SisoEnum): string;
+    initialize(enumsMap: SisoEnumsDataType): Promise<void>;
+    // Collections
+    getAllCountries(): Map<number, string>;
+    getAllDomains(): Map<number, string>;
+    getAllKinds(): Map<number, string>;
+    getAllDomainsOf(kind: number): Map<number, string>;
+    // Descriptions
+    getDescriptionOf(sisoEnum: SisoEnum, fullyQualified: boolean = false): string
+    getCountryName(countryOrEntity: SisoEnum | number): string;
+    getKindName(kindOrEntity: SisoEnum | number): string;
+    getDomainName(ent: SisoEnum): string;
+    getCategoryName(ent: SisoEnum): string;
+    getSubcategoryName(ent: SisoEnum): string;
+    getSpecificName(ent: SisoEnum): string;
+    getExtraName(ent: SisoEnum): string;
+    // Partial collections
+    getAllCategoriesOf(kind: number, domain: number, country: number): Map<number, string>;
+    getAllSubcategoriesOf(kind: number, domain: number, country: number, category: number): Map<number, string>;
+    getAllSpecificsOf(kind: number, domain: number, country: number, category: number, subcategory: number): Map<number, string>;
+    getAllExtrasOf(kind: number, domain: number, country: number, cat: number, subcat: number, specific: number): Map<number, string>;
+    searchDescription(query: string): Record<string, string>;
 ```
 
 ## Development
