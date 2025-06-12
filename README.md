@@ -8,6 +8,8 @@ The SISO-REF-010 is a standard developed by the
 [Simulation Interoperability Standards Organization (SISO)](https://www.sisostds.org/Home.aspx) and is widely used in distributed
 simulations such as HLA and DIS to provide Simulation Interoperability.
 
+An interactive picker-GUI is hosted on [https://rinzeb.github.io/siso-entity-type-picker/](https://rinzeb.github.io/siso-entity-type-picker/)
+
 ## Copyright notice
 
 The [SISO-REF-010-2024](https://www.sisostandards.org/page/ReferenceDocuments) has a copyright © 2024 by the Simulation Interoperability
