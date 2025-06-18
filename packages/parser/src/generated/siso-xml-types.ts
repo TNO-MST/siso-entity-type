@@ -62,11 +62,6 @@ export interface BitfieldrowElement {
   __xref?: string;
   __length?: string;
   __footnote?: string;
-  __status?: Status;
-}
-
-export enum Status {
-  New = "new",
 }
 
 export interface CRElement {
@@ -84,18 +79,18 @@ export interface PurpleBitfieldrow {
 
 export interface JammerTechnique {
   cr?: CRElement;
-  entity?: EntityElement[] | PurpleEntity;
+  entity?: EntityElement[] | EntityElement;
   __uid: string;
   __name: string;
-  object?: ObjectElement[] | PurpleObject;
+  object?: ObjectElement[] | ObjectElement;
   jammer_kind?: JammerKind[];
-  field?: Field[];
+  field?: FieldElement[] | FieldElement;
   revision?: Revision[];
 }
 
 export interface EntityElement {
   cr?: CRElement;
-  category: CategoryElement[] | JammerKind;
+  category: CategoryElement[] | CategoryElement;
   __kind: string;
   __domain: string;
   __country: string;
@@ -103,46 +98,21 @@ export interface EntityElement {
   __status?: Status;
 }
 
-export interface SubcategoryXref {
-  cr: CRElement;
-  specific: JammerKind;
-  __xref: string;
-  __description: string;
-  __uid: string;
+export enum Status {
+  New = "new",
 }
 
-export interface StickySpecific {
+export interface CategoryElement {
+  subcategory?: SubcategoryElement[] | SubcategoryElement;
+  __value: string;
+  __description: string;
+  __uid: string;
   cr?: CRElement[] | CRElement;
-  __value: string;
-  __description: string;
-  __uid: string;
-  __deprecated?: string;
-  __variation?: string;
-  __footnote?: string;
-  extra?: JammerKind[] | JammerKind;
-  __status?: Status;
-}
-
-export interface FluffySpecific {
-  cr?: CRElement;
-  __value: string;
-  __description: string;
-  __uid: string;
-  __footnote?: string;
-  __variation?: string;
   __status?: Status;
   __deprecated?: string;
-  extra?: JammerKind[];
-}
-
-export interface PurpleSpecific {
-  cr?: CRElement;
-  __value: string;
-  __description: string;
-  __uid: string;
-  __footnote?: string;
-  __status?: Status;
-  extra?: JammerKind[] | JammerKind;
+  subcategory_xref?: SubcategoryXref;
+  __variation?: string;
+  specific?: SpecificElement[] | SpecificElement;
 }
 
 export interface PurpleSubcategory {
@@ -150,14 +120,14 @@ export interface PurpleSubcategory {
   __value: string;
   __description: string;
   __uid: string;
-  specific?: PurpleSpecific[] | FluffySpecific;
+  specific?: SpecificElement[] | SpecificElement;
   __variation?: string;
-  __status?: Status;
   __deprecated?: string;
+  __status?: Status;
 }
 
 export interface SubcategoryElement {
-  specific?: SubcategoryClass[] | CategoryElement;
+  specific?: SpecificElement[] | SpecificElement;
   __value: string;
   __description: string;
   __uid: string;
@@ -173,7 +143,7 @@ export interface JammerKind {
   __description: string;
   __uid?: string;
   __status?: Status;
-  subcategory?: SubcategoryElement[] | PurpleSubcategory;
+  subcategory?: SubcategoryElement[] | SubcategoryElement;
   __deprecated?: string;
   jammer_category?: JammerKind[] | JammerKind;
   jammer_subcategory?: JammerKind[] | JammerKind;
@@ -181,54 +151,9 @@ export interface JammerKind {
   __footnote?: string;
 }
 
-export interface CategoryElement {
-  subcategory?: SubcategoryClass[] | CategoryElement;
-  __value: string;
-  __description: string;
-  __uid: string;
+export interface SpecificElement {
   cr?: CRElement[] | CRElement;
-  __deprecated?: string;
-  __status?: Status;
-  subcategory_xref?: SubcategoryXref;
-  __variation?: string;
-  specific?: TentacledSpecific[] | StickySpecific;
-  extra?: JammerKind[] | JammerKind;
-}
-
-export interface TentacledSpecific {
-  cr?: CRElement[] | CRElement;
-  __value: string;
-  __description: string;
-  __uid: string;
-  __variation?: string;
-  __footnote?: string;
-  extra?: FluffyExtra[] | TentacledExtra;
-  __status?: Status;
-  __deprecated?: string;
-  __transferred?: string;
-  __retired?: string;
-}
-
-export interface FluffyExtra {
-  cr?: CRElement[] | CRElement;
-  __value: string;
-  __description: string;
-  __uid: string;
-  __status?: Status;
-  __deprecated?: string;
-}
-
-export interface TentacledExtra {
-  cr?: CRElement[] | CRElement;
-  __value: string;
-  __description: string;
-  __uid: string;
-  __deprecated?: string;
-}
-
-export interface SubcategoryClass {
-  cr?: CRElement[] | CRElement;
-  specific?: SubcategoryClass[] | SubcategoryClass;
+  specific?: SpecificElement[] | SpecificElement;
   __value: string;
   __description: string;
   __uid: string;
@@ -237,49 +162,52 @@ export interface SubcategoryClass {
   __status?: Status;
   __footnote?: string;
   __retired?: string;
-  extra?: PurpleExtra[] | PurpleExtra;
+  extra?: ExtraElement[] | ExtraElement;
   __transferred?: string;
 }
 
-export interface PurpleExtra {
+export interface ExtraElement {
   cr?: CRElement[] | CRElement;
   __value: string;
   __description: string;
   __uid: string;
   __status?: Status;
-  __variation?: string;
   __deprecated?: string;
+  __variation?: string;
 }
 
-export interface PurpleEntity {
-  category: JammerKind[];
-  __kind: string;
-  __domain: string;
-  __country: string;
+export interface SubcategoryXref {
+  cr: CRElement;
+  specific: JammerKind;
+  __xref: string;
+  __description: string;
   __uid: string;
 }
 
-export interface Field {
-  datatype: DatatypeElement[] | PurpleDatatype;
+export interface FieldElement {
+  datatype: PurpleDatatype[] | PurpleDatatype;
   __name: string;
   cr?: CRElement;
-}
-
-export interface DatatypeElement {
-  cr?: CRElement;
-  __name: string;
-  __type: Type;
-}
-
-export enum Type {
-  The16BitUnsignedInteger = "16-bit unsigned integer",
-  The8BitSignedInteger = "8-bit signed integer",
-  The8BitSignedIntegerr = "8-bit signed integerr",
 }
 
 export interface PurpleDatatype {
   cr?: CRElement;
-  __type: string;
+  __name: string;
+  __type?: Type;
+}
+
+export enum Type {
+  The16BitEnumeration = "16 bit enumeration",
+  The16BitUnsignedInteger = "16-bit unsigned integer",
+  The32BitFloatingPoint = "32 bit floating point",
+  The64BitFloatingPoint = "64 bit floating point",
+  The8BitEnumeration = "8 bit enumeration",
+  The8BitSignedInteger = "8-bit signed integer",
+}
+
+export interface PurpleField {
+  datatype: PurpleDatatype[] | PurpleDatatype;
+  __name: string;
 }
 
 export interface ObjectElement {
@@ -323,13 +251,13 @@ export interface Dictrow {
   __value: string;
   __description: string;
   cr?: CRElement[] | CRElement;
-  __footnote?: string;
   __status?: Status;
+  __footnote?: string;
 }
 
 export interface Enum {
   cr?: CRElement[] | CRElement;
-  enumrow?: EnumrowElement[] | JammerKind;
+  enumrow?: EnumrowElement[] | EnumrowElement;
   __uid: string;
   __name: string;
   __size: string;
@@ -354,8 +282,8 @@ export interface EnumrowElement {
   cr?: CRElement[] | CRElement;
   __footnote?: string;
   __deprecated?: string;
-  __xref?: string;
   __status?: Status;
+  __xref?: string;
   __group?: string;
   meta?: MetaElement[] | MetaElement;
 }
@@ -642,7 +570,6 @@ const typeMap: any = {
       { json: "__xref", js: "__xref", typ: u(undefined, "") },
       { json: "__length", js: "__length", typ: u(undefined, "") },
       { json: "__footnote", js: "__footnote", typ: u(undefined, "") },
-      { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
     ],
     false,
   ),
@@ -666,7 +593,7 @@ const typeMap: any = {
       { json: "__name", js: "__name", typ: "" },
       { json: "object", js: "object", typ: u(undefined, u(a(r("ObjectElement")), r("PurpleObject"))) },
       { json: "jammer_kind", js: "jammer_kind", typ: u(undefined, a(r("JammerKind"))) },
-      { json: "field", js: "field", typ: u(undefined, a(r("Field"))) },
+      { json: "field", js: "field", typ: u(undefined, u(a(r("FieldElement")), r("PurpleField"))) },
       { json: "revision", js: "revision", typ: u(undefined, a(r("Revision"))) },
     ],
     false,
@@ -683,53 +610,18 @@ const typeMap: any = {
     ],
     false,
   ),
-  SubcategoryXref: o(
+  CategoryElement: o(
     [
-      { json: "cr", js: "cr", typ: r("CRElement") },
-      { json: "specific", js: "specific", typ: r("JammerKind") },
-      { json: "__xref", js: "__xref", typ: "" },
+      { json: "subcategory", js: "subcategory", typ: u(undefined, u(a(r("SpecificElement")), r("CategoryElement"))) },
+      { json: "__value", js: "__value", typ: "" },
       { json: "__description", js: "__description", typ: "" },
       { json: "__uid", js: "__uid", typ: "" },
-    ],
-    false,
-  ),
-  StickySpecific: o(
-    [
       { json: "cr", js: "cr", typ: u(undefined, u(a(r("CRElement")), r("CRElement"))) },
-      { json: "__value", js: "__value", typ: "" },
-      { json: "__description", js: "__description", typ: "" },
-      { json: "__uid", js: "__uid", typ: "" },
-      { json: "__deprecated", js: "__deprecated", typ: u(undefined, "") },
-      { json: "__variation", js: "__variation", typ: u(undefined, "") },
-      { json: "__footnote", js: "__footnote", typ: u(undefined, "") },
-      { json: "extra", js: "extra", typ: u(undefined, u(a(r("JammerKind")), r("JammerKind"))) },
-      { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
-    ],
-    false,
-  ),
-  FluffySpecific: o(
-    [
-      { json: "cr", js: "cr", typ: u(undefined, r("CRElement")) },
-      { json: "__value", js: "__value", typ: "" },
-      { json: "__description", js: "__description", typ: "" },
-      { json: "__uid", js: "__uid", typ: "" },
-      { json: "__footnote", js: "__footnote", typ: u(undefined, "") },
-      { json: "__variation", js: "__variation", typ: u(undefined, "") },
       { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
       { json: "__deprecated", js: "__deprecated", typ: u(undefined, "") },
-      { json: "extra", js: "extra", typ: u(undefined, a(r("JammerKind"))) },
-    ],
-    false,
-  ),
-  PurpleSpecific: o(
-    [
-      { json: "cr", js: "cr", typ: u(undefined, r("CRElement")) },
-      { json: "__value", js: "__value", typ: "" },
-      { json: "__description", js: "__description", typ: "" },
-      { json: "__uid", js: "__uid", typ: "" },
-      { json: "__footnote", js: "__footnote", typ: u(undefined, "") },
-      { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
-      { json: "extra", js: "extra", typ: u(undefined, u(a(r("JammerKind")), r("JammerKind"))) },
+      { json: "subcategory_xref", js: "subcategory_xref", typ: u(undefined, r("SubcategoryXref")) },
+      { json: "__variation", js: "__variation", typ: u(undefined, "") },
+      { json: "specific", js: "specific", typ: u(undefined, u(a(r("SpecificElement")), r("SpecificElement"))) },
     ],
     false,
   ),
@@ -739,16 +631,16 @@ const typeMap: any = {
       { json: "__value", js: "__value", typ: "" },
       { json: "__description", js: "__description", typ: "" },
       { json: "__uid", js: "__uid", typ: "" },
-      { json: "specific", js: "specific", typ: u(undefined, u(a(r("PurpleSpecific")), r("FluffySpecific"))) },
+      { json: "specific", js: "specific", typ: u(undefined, u(a(r("SpecificElement")), r("FluffySpecific"))) },
       { json: "__variation", js: "__variation", typ: u(undefined, "") },
-      { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
       { json: "__deprecated", js: "__deprecated", typ: u(undefined, "") },
+      { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
     ],
     false,
   ),
   SubcategoryElement: o(
     [
-      { json: "specific", js: "specific", typ: u(undefined, u(a(r("SubcategoryClass")), r("CategoryElement"))) },
+      { json: "specific", js: "specific", typ: u(undefined, u(a(r("SpecificElement")), r("SpecificElement"))) },
       { json: "__value", js: "__value", typ: "" },
       { json: "__description", js: "__description", typ: "" },
       { json: "__uid", js: "__uid", typ: "" },
@@ -775,63 +667,26 @@ const typeMap: any = {
     ],
     false,
   ),
-  CategoryElement: o(
-    [
-      { json: "subcategory", js: "subcategory", typ: u(undefined, u(a(r("SubcategoryClass")), r("CategoryElement"))) },
-      { json: "__value", js: "__value", typ: "" },
-      { json: "__description", js: "__description", typ: "" },
-      { json: "__uid", js: "__uid", typ: "" },
-      { json: "cr", js: "cr", typ: u(undefined, u(a(r("CRElement")), r("CRElement"))) },
-      { json: "__deprecated", js: "__deprecated", typ: u(undefined, "") },
-      { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
-      { json: "subcategory_xref", js: "subcategory_xref", typ: u(undefined, r("SubcategoryXref")) },
-      { json: "__variation", js: "__variation", typ: u(undefined, "") },
-      { json: "specific", js: "specific", typ: u(undefined, u(a(r("TentacledSpecific")), r("StickySpecific"))) },
-      { json: "extra", js: "extra", typ: u(undefined, u(a(r("JammerKind")), r("JammerKind"))) },
-    ],
-    false,
-  ),
-  TentacledSpecific: o(
+  PurpleSpecific: o(
     [
       { json: "cr", js: "cr", typ: u(undefined, u(a(r("CRElement")), r("CRElement"))) },
       { json: "__value", js: "__value", typ: "" },
       { json: "__description", js: "__description", typ: "" },
       { json: "__uid", js: "__uid", typ: "" },
-      { json: "__variation", js: "__variation", typ: u(undefined, "") },
       { json: "__footnote", js: "__footnote", typ: u(undefined, "") },
-      { json: "extra", js: "extra", typ: u(undefined, u(a(r("FluffyExtra")), r("TentacledExtra"))) },
-      { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
+      { json: "__variation", js: "__variation", typ: u(undefined, "") },
+      { json: "extra", js: "extra", typ: u(undefined, u(a(r("JammerKind")), r("PurpleExtra"))) },
+      { json: "__retired", js: "__retired", typ: u(undefined, "") },
       { json: "__deprecated", js: "__deprecated", typ: u(undefined, "") },
       { json: "__transferred", js: "__transferred", typ: u(undefined, "") },
-      { json: "__retired", js: "__retired", typ: u(undefined, "") },
-    ],
-    false,
-  ),
-  FluffyExtra: o(
-    [
-      { json: "cr", js: "cr", typ: u(undefined, u(a(r("CRElement")), r("CRElement"))) },
-      { json: "__value", js: "__value", typ: "" },
-      { json: "__description", js: "__description", typ: "" },
-      { json: "__uid", js: "__uid", typ: "" },
       { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
-      { json: "__deprecated", js: "__deprecated", typ: u(undefined, "") },
     ],
     false,
   ),
-  TentacledExtra: o(
+  SpecificElement: o(
     [
       { json: "cr", js: "cr", typ: u(undefined, u(a(r("CRElement")), r("CRElement"))) },
-      { json: "__value", js: "__value", typ: "" },
-      { json: "__description", js: "__description", typ: "" },
-      { json: "__uid", js: "__uid", typ: "" },
-      { json: "__deprecated", js: "__deprecated", typ: u(undefined, "") },
-    ],
-    false,
-  ),
-  SubcategoryClass: o(
-    [
-      { json: "cr", js: "cr", typ: u(undefined, u(a(r("CRElement")), r("CRElement"))) },
-      { json: "specific", js: "specific", typ: u(undefined, u(a(r("SubcategoryClass")), r("SubcategoryClass"))) },
+      { json: "specific", js: "specific", typ: u(undefined, u(a(r("SpecificElement")), r("PurpleSpecific"))) },
       { json: "__value", js: "__value", typ: "" },
       { json: "__description", js: "__description", typ: "" },
       { json: "__uid", js: "__uid", typ: "" },
@@ -840,20 +695,54 @@ const typeMap: any = {
       { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
       { json: "__footnote", js: "__footnote", typ: u(undefined, "") },
       { json: "__retired", js: "__retired", typ: u(undefined, "") },
-      { json: "extra", js: "extra", typ: u(undefined, u(a(r("PurpleExtra")), r("PurpleExtra"))) },
+      { json: "extra", js: "extra", typ: u(undefined, u(a(r("ExtraElement")), r("ExtraElement"))) },
       { json: "__transferred", js: "__transferred", typ: u(undefined, "") },
+    ],
+    false,
+  ),
+  FluffySpecific: o(
+    [
+      { json: "cr", js: "cr", typ: u(undefined, r("CRElement")) },
+      { json: "__value", js: "__value", typ: "" },
+      { json: "__description", js: "__description", typ: "" },
+      { json: "__uid", js: "__uid", typ: "" },
+      { json: "__variation", js: "__variation", typ: u(undefined, "") },
+      { json: "__footnote", js: "__footnote", typ: u(undefined, "") },
+      { json: "__deprecated", js: "__deprecated", typ: u(undefined, "") },
+      { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
     ],
     false,
   ),
   PurpleExtra: o(
     [
+      { json: "cr", js: "cr", typ: u(a(r("CRElement")), r("CRElement")) },
+      { json: "__value", js: "__value", typ: "" },
+      { json: "__description", js: "__description", typ: "" },
+      { json: "__uid", js: "__uid", typ: "" },
+      { json: "__variation", js: "__variation", typ: u(undefined, "") },
+      { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
+    ],
+    false,
+  ),
+  ExtraElement: o(
+    [
       { json: "cr", js: "cr", typ: u(undefined, u(a(r("CRElement")), r("CRElement"))) },
       { json: "__value", js: "__value", typ: "" },
       { json: "__description", js: "__description", typ: "" },
       { json: "__uid", js: "__uid", typ: "" },
       { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
-      { json: "__variation", js: "__variation", typ: u(undefined, "") },
       { json: "__deprecated", js: "__deprecated", typ: u(undefined, "") },
+      { json: "__variation", js: "__variation", typ: u(undefined, "") },
+    ],
+    false,
+  ),
+  SubcategoryXref: o(
+    [
+      { json: "cr", js: "cr", typ: r("CRElement") },
+      { json: "specific", js: "specific", typ: r("JammerKind") },
+      { json: "__xref", js: "__xref", typ: "" },
+      { json: "__description", js: "__description", typ: "" },
+      { json: "__uid", js: "__uid", typ: "" },
     ],
     false,
   ),
@@ -867,15 +756,15 @@ const typeMap: any = {
     ],
     false,
   ),
-  Field: o(
+  FieldElement: o(
     [
-      { json: "datatype", js: "datatype", typ: u(a(r("DatatypeElement")), r("PurpleDatatype")) },
+      { json: "datatype", js: "datatype", typ: u(a(r("PurpleDatatype")), r("FluffyDatatype")) },
       { json: "__name", js: "__name", typ: "" },
       { json: "cr", js: "cr", typ: u(undefined, r("CRElement")) },
     ],
     false,
   ),
-  DatatypeElement: o(
+  PurpleDatatype: o(
     [
       { json: "cr", js: "cr", typ: u(undefined, r("CRElement")) },
       { json: "__name", js: "__name", typ: "" },
@@ -883,13 +772,28 @@ const typeMap: any = {
     ],
     false,
   ),
-  PurpleDatatype: o(
+  FluffyDatatype: o(
     [
       { json: "cr", js: "cr", typ: u(undefined, r("CRElement")) },
       { json: "__type", js: "__type", typ: "" },
     ],
     false,
   ),
+  PurpleField: o(
+    [
+      { json: "datatype", js: "datatype", typ: u(a(r("TentacledDatatype")), r("StickyDatatype")) },
+      { json: "__name", js: "__name", typ: "" },
+    ],
+    false,
+  ),
+  TentacledDatatype: o(
+    [
+      { json: "__name", js: "__name", typ: "" },
+      { json: "__type", js: "__type", typ: r("Type") },
+    ],
+    false,
+  ),
+  StickyDatatype: o([{ json: "__type", js: "__type", typ: "" }], false),
   ObjectElement: o(
     [
       { json: "cr", js: "cr", typ: r("CRElement") },
@@ -942,8 +846,8 @@ const typeMap: any = {
       { json: "__value", js: "__value", typ: "" },
       { json: "__description", js: "__description", typ: "" },
       { json: "cr", js: "cr", typ: u(undefined, u(a(r("CRElement")), r("CRElement"))) },
-      { json: "__footnote", js: "__footnote", typ: u(undefined, "") },
       { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
+      { json: "__footnote", js: "__footnote", typ: u(undefined, "") },
     ],
     false,
   ),
@@ -979,8 +883,8 @@ const typeMap: any = {
       { json: "cr", js: "cr", typ: u(undefined, u(a(r("CRElement")), r("CRElement"))) },
       { json: "__footnote", js: "__footnote", typ: u(undefined, "") },
       { json: "__deprecated", js: "__deprecated", typ: u(undefined, "") },
-      { json: "__xref", js: "__xref", typ: u(undefined, "") },
       { json: "__status", js: "__status", typ: u(undefined, r("Status")) },
+      { json: "__xref", js: "__xref", typ: u(undefined, "") },
       { json: "__group", js: "__group", typ: u(undefined, "") },
       { json: "meta", js: "meta", typ: u(undefined, u(a(r("MetaElement")), r("MetaElement"))) },
     ],
@@ -1020,6 +924,13 @@ const typeMap: any = {
     false,
   ),
   Status: ["new"],
-  Type: ["16-bit unsigned integer", "8-bit signed integer", "8-bit signed integerr"],
+  Type: [
+    "16 bit enumeration",
+    "16-bit unsigned integer",
+    "32 bit floating point",
+    "64 bit floating point",
+    "8 bit enumeration",
+    "8-bit signed integer",
+  ],
   Key: ["commid", "email", "natoid", "org", "poc", "type"],
 };

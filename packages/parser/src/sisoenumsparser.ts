@@ -1,4 +1,4 @@
-import { BITMAP_BYTE, BITMAP_SHORT, LongKeyMap, Utils, type SisoEnumsDataType } from "@siso-entity-type/lib";
+import { LongKeyMap, Utils, type SisoEnumsDataType } from "@siso-entity-type/lib";
 import { XMLBuilder } from "fast-xml-parser";
 import fs, { existsSync, mkdirSync } from "fs";
 import Long from "long";
@@ -9,20 +9,15 @@ import type {
   CategoryElement,
   EntityElement,
   Enum,
-  FluffySpecific,
   JammerKind,
-  PurpleEntity,
-  PurpleSpecific,
-  PurpleSubcategory,
   SISOXMLTypes,
-  StickySpecific,
-  SubcategoryClass,
   SubcategoryElement,
-  TentacledSpecific,
+  SpecificElement,
+  ExtraElement,
 } from "./generated/siso-xml-types.js";
 import { join } from "path";
 
-type AllSpecificTypes = StickySpecific | PurpleSpecific | FluffySpecific | TentacledSpecific;
+type AllSpecificTypes = SpecificElement;
 
 // UIDs
 const UID_ENTITYKIND = 7;
@@ -135,7 +130,7 @@ export class SisoEnumsParser {
     }
   }
 
-  private initializeEntity(ee: EntityElement | PurpleEntity) {
+  private initializeEntity(ee: EntityElement) {
     if (Array.isArray(ee.category)) {
       for (const c of ee.category) {
         this.initializeCategory(+ee.__kind, +ee.__domain, +ee.__country, c);
@@ -157,7 +152,7 @@ export class SisoEnumsParser {
     domain: number,
     country: number,
     category: number,
-    scc: SubcategoryClass[] | CategoryElement | SubcategoryElement[] | PurpleSubcategory,
+    scc: SubcategoryElement[] | SubcategoryElement,
     text: string,
   ) {
     if (Array.isArray(scc)) {
@@ -171,14 +166,7 @@ export class SisoEnumsParser {
     }
   }
 
-  private processSubcategory(
-    kind: number,
-    domain: number,
-    country: number,
-    category: number,
-    scc: SubcategoryClass | CategoryElement | PurpleSubcategory,
-    text: string,
-  ) {
+  private processSubcategory(kind: number, domain: number, country: number, category: number, scc: SubcategoryElement, text: string) {
     const description = DEFAULT_QUALIFIED ? `${text}${DEFAULT_DELIMITER}${scc.__description}` : scc.__description;
     this.output(this.mapSubcategory, kind, domain, country, category, +scc.__value, 0, 0, description);
     if (scc.specific) {
@@ -192,7 +180,7 @@ export class SisoEnumsParser {
     country: number,
     category: number,
     subcategory: number,
-    spec: SubcategoryClass | SubcategoryClass[] | AllSpecificTypes | AllSpecificTypes[],
+    spec: SpecificElement | SpecificElement[],
     text: string,
   ) {
     if (Array.isArray(spec)) {
@@ -212,7 +200,7 @@ export class SisoEnumsParser {
     country: number,
     category: number,
     subcategory: number,
-    spec: SubcategoryClass | CategoryElement,
+    spec: SpecificElement,
     text: string,
   ) {
     const description = DEFAULT_QUALIFIED ? `${text}${DEFAULT_DELIMITER}${spec.__description}` : spec.__description;
@@ -229,7 +217,7 @@ export class SisoEnumsParser {
     category: number,
     subcategory: number,
     specific: number,
-    extra: SubcategoryClass | SubcategoryClass[] | AllSpecificTypes | AllSpecificTypes[] | JammerKind | JammerKind[],
+    extra: ExtraElement | ExtraElement[],
     text: string,
   ) {
     if (Array.isArray(extra)) {
@@ -250,7 +238,7 @@ export class SisoEnumsParser {
     category: number,
     subcategory: number,
     specific: number,
-    extra: SubcategoryClass | CategoryElement | AllSpecificTypes | JammerKind,
+    extra: ExtraElement,
     text: string,
   ) {
     const description = DEFAULT_QUALIFIED ? `${text}${DEFAULT_DELIMITER}${extra.__description}` : extra.__description;

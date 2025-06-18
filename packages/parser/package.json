@@ -31,10 +31,10 @@
     "dev": "vitest",
     "parse": "node dist/bin/parser.cjs",
     "prepublishOnly": "pnpm run ci",
-    "parse-siso-xml": "pnpm run generate-types && pnpm run build && pnpm run parse",
+    "parse-siso-xml": "pnpm run build && pnpm run parse",
     "generate-types": "pnpm run xml-to-json && pnpm run gen-ts && rimraf scripts/parsed-xml.json",
-    "gen-ts": "quicktype -l ts -s json -o src/generated/siso-xml-types.ts ./scripts/parsed-xml.json && prettier --write src/generated/siso-xml-types.ts",
     "xml-to-json": "node scripts/generate-json.mjs -i ../data/SISO-REF-010.xml -o parsed-xml.json",
+    "gen-ts": "quicktype -l ts -s json -o src/generated/siso-xml-types.ts ./scripts/parsed-xml.json && prettier --write src/generated/siso-xml-types.ts",
     "clean-dist": "rimraf dist",
     "clean-completely": "pnpm run -r clean-dist && rimraf node_modules"
   },
