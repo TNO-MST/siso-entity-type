@@ -1,5 +1,23 @@
 # @siso-entity-type/picker
 
+## 1.0.0
+
+### Major Changes
+
+- Fix versions of all 3 packages together
+
+### Patch Changes
+
+- Updated dependencies
+  - @siso-entity-type/lib@1.0.0
+
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [2290a8e]
+  - @siso-entity-type/lib@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes

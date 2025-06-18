@@ -1,5 +1,17 @@
 # @siso-entity-type/lib
 
+## 1.0.0
+
+### Major Changes
+
+- Fix versions of all 3 packages together
+
+## 0.4.0
+
+### Minor Changes
+
+- 2290a8e: Update to SISO-REF-010-2025 v35
+
 ## 0.3.0
 
 ### Minor Changes

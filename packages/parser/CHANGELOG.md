@@ -1,5 +1,28 @@
 # @siso-entity-type/parser
 
+## 1.0.0
+
+### Major Changes
+
+- Fix versions of all 3 packages together
+
+### Patch Changes
+
+- Updated dependencies
+  - @siso-entity-type/lib@1.0.0
+
+## 0.4.0
+
+### Minor Changes
+
+- 2290a8e: Update to SISO-REF-010-2025 v35
+
+### Patch Changes
+
+- dd2f0ad: Cleanup auto-generated types
+- Updated dependencies [2290a8e]
+  - @siso-entity-type/lib@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes
