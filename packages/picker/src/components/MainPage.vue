@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fill-height flex-column align-stretch">
+  <v-container class="main-container fill-height flex-column align-stretch">
     <v-row no-gutters class="max-header-height">
       <v-col cols="6">
         <h4 class="text-h4 font-weight-bold">SISO Entity Types</h4>
@@ -352,5 +352,11 @@ onMounted(() => {
 
 .max-header-height {
   max-height: 80px;
+}
+
+@media (min-width: 1280px) {
+  .v-container.main-container {
+    max-width: 64rem;
+  }
 }
 </style>
