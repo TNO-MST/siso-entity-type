@@ -266,5 +266,38 @@ describe("SisoEnums class", () => {
         expect(sisoEnums.getDescriptionOf(enum1, true)).toEqual("Fighter/Air Defense / McDonnell-Douglas F/A-18 Hornet / F/A-18B");
       });
     });
+
+    it("should output a map of all Surface categories", () => {
+      let all = new Map<number, string>();
+      for (let i = 0; i < 255; i++) {
+        const result = sisoEnums.getAllCategoriesOf(EntityKind.Platform, EntityDomain.Surface, i);
+        result.forEach((value, key) => {
+          all.set(key, value);
+        });
+      }
+      console.log(JSON.stringify(Object.fromEntries(all)));
+    });
+
+    it("should output a map of all Sub Surface categories", () => {
+      let all = new Map<number, string>();
+      for (let i = 0; i < 255; i++) {
+        const result = sisoEnums.getAllCategoriesOf(EntityKind.Platform, EntityDomain.Subsurface, i);
+        result.forEach((value, key) => {
+          all.set(key, value);
+        });
+      }
+      console.log(JSON.stringify(Object.fromEntries(all)));
+    });
+
+    it("should output a map of all Munition categories", () => {
+      let all = new Map<number, string>();
+      for (let i = 0; i < 255; i++) {
+        const result = sisoEnums.getAllCategoriesOf(EntityKind.Munition, 7, i);
+        result.forEach((value, key) => {
+          all.set(key, value);
+        });
+      }
+      console.log(JSON.stringify(Object.fromEntries(all)));
+    });
   });
 });

@@ -22,6 +22,16 @@ export const BITMAP_0_CAT_SUBCAT_SPECIFIC_EXTRA = Long.fromString("ffff0000fffff
 export const BITMAP_BYTE = Long.fromInt(0xff);
 export const BITMAP_SHORT = Long.fromInt(0xffff);
 
+export const BYTE_SHIFT = {
+  KIND: 56,
+  DOMAIN: 48,
+  COUNTRY: 32,
+  CATEGORY: 24,
+  SUBCATEGORY: 16,
+  SPECIFIC: 8,
+  EXTRA: 0,
+} as const;
+
 export class SisoEnums {
   private mapKind: LongKeyMap<string> = new LongKeyMap();
   private mapDomain: LongKeyMap<string> = new LongKeyMap();
@@ -78,7 +88,7 @@ export class SisoEnums {
     }
     // Kinds are not loaded from the SISO enums datafile, but from the hardcoded EntityKind enum
     for (const [key, val] of Object.entries(EntityKindDescriptions)) {
-      this.mapKind.set(Long.fromString(key).and(BITMAP_BYTE).shiftLeft(56), val);
+      this.mapKind.set(Long.fromString(key).and(BITMAP_BYTE).shiftLeft(BYTE_SHIFT.KIND), val);
     }
     debug(`Processed ${this.countryCount} countries`);
     debug(`Processed ${this.kindCount} kinds`);
@@ -126,7 +136,7 @@ export class SisoEnums {
   public getAllCountries(): Map<number, string> {
     const result = new Map<number, string>();
     this.mapCountry.forEach((value, key) => {
-      result.set(key.shiftRight(32).toNumber(), value);
+      result.set(key.shiftRight(BYTE_SHIFT.COUNTRY).toNumber(), value);
     });
     return result;
   }
@@ -134,7 +144,7 @@ export class SisoEnums {
   public getAllDomains(): Map<number, string> {
     const result = new Map<number, string>();
     this.mapDomain.forEach((value, key) => {
-      result.set(key.shiftRight(48).toNumber(), value);
+      result.set(key.shiftRight(BYTE_SHIFT.DOMAIN).toNumber(), value);
     });
     return result;
   }
@@ -142,7 +152,7 @@ export class SisoEnums {
   public getAllKinds(): Map<number, string> {
     const result = new Map<number, string>();
     this.mapKind.forEach((value, key) => {
-      result.set(key.shiftRight(56).toNumber(), value);
+      result.set(key.shiftRight(BYTE_SHIFT.KIND).toNumber(), value);
     });
     return result;
   }
@@ -150,8 +160,8 @@ export class SisoEnums {
   public getAllDomainsOf(kind: number): Map<number, string> {
     return new Map(
       [...this.mapDomain.entries()]
-        .filter(([k]) => k.shiftRight(56).and(BITMAP_BYTE).toNumber() === kind)
-        .map(([k, v]) => [k.shiftRight(48).and(BITMAP_BYTE).toNumber(), v]),
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.KIND).and(BITMAP_BYTE).toNumber() === kind)
+        .map(([k, v]) => [k.shiftRight(BYTE_SHIFT.DOMAIN).and(BITMAP_BYTE).toNumber(), v]),
     );
   }
 
@@ -201,63 +211,63 @@ export class SisoEnums {
   public getAllCategoriesOf(kind: number, domain: number, country: number): Map<number, string> {
     return new Map(
       [...this.mapCategory.entries()]
-        .filter(([k]) => k.shiftRight(56).and(BITMAP_BYTE).toNumber() === kind)
-        .filter(([k]) => k.shiftRight(48).and(BITMAP_BYTE).toNumber() === domain)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.KIND).and(BITMAP_BYTE).toNumber() === kind)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.DOMAIN).and(BITMAP_BYTE).toNumber() === domain)
         .filter(([k]) => {
-          const c = k.shiftRight(32).and(BITMAP_SHORT).toNumber();
+          const c = k.shiftRight(BYTE_SHIFT.COUNTRY).and(BITMAP_SHORT).toNumber();
           return c === country || c === 0;
         })
-        .filter(([k]) => k.shiftRight(16).and(BITMAP_BYTE).toNumber() === 0)
-        .filter(([k]) => k.shiftRight(8).and(BITMAP_BYTE).toNumber() === 0)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.SUBCATEGORY).and(BITMAP_BYTE).toNumber() === 0)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.SPECIFIC).and(BITMAP_BYTE).toNumber() === 0)
         .filter(([k]) => k.and(BITMAP_BYTE).toNumber() === 0)
-        .map(([k, v]) => [k.shiftRight(24).and(BITMAP_BYTE).toNumber(), v]),
+        .map(([k, v]) => [k.shiftRight(BYTE_SHIFT.CATEGORY).and(BITMAP_BYTE).toNumber(), v]),
     );
   }
 
   public getAllSubcategoriesOf(kind: number, domain: number, country: number, category: number): Map<number, string> {
     return new Map(
       [...this.mapSubcategory.entries()]
-        .filter(([k]) => k.shiftRight(56).and(BITMAP_BYTE).toNumber() === kind)
-        .filter(([k]) => k.shiftRight(48).and(BITMAP_BYTE).toNumber() === domain)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.KIND).and(BITMAP_BYTE).toNumber() === kind)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.DOMAIN).and(BITMAP_BYTE).toNumber() === domain)
         .filter(([k]) => {
-          const c = k.shiftRight(32).and(BITMAP_SHORT).toNumber();
+          const c = k.shiftRight(BYTE_SHIFT.COUNTRY).and(BITMAP_SHORT).toNumber();
           return c === country || c === 0;
         })
-        .filter(([k]) => k.shiftRight(24).and(BITMAP_BYTE).toNumber() === category)
-        .filter(([k]) => k.shiftRight(8).and(BITMAP_BYTE).toNumber() === 0)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.CATEGORY).and(BITMAP_BYTE).toNumber() === category)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.SPECIFIC).and(BITMAP_BYTE).toNumber() === 0)
         .filter(([k]) => k.and(BITMAP_BYTE).toNumber() === 0)
-        .map(([k, v]) => [k.shiftRight(16).and(BITMAP_BYTE).toNumber(), v]),
+        .map(([k, v]) => [k.shiftRight(BYTE_SHIFT.SUBCATEGORY).and(BITMAP_BYTE).toNumber(), v]),
     );
   }
 
   public getAllSpecificsOf(kind: number, domain: number, country: number, category: number, subcategory: number): Map<number, string> {
     return new Map(
       [...this.mapSubcategory.entries()]
-        .filter(([k]) => k.shiftRight(56).and(BITMAP_BYTE).toNumber() === kind)
-        .filter(([k]) => k.shiftRight(48).and(BITMAP_BYTE).toNumber() === domain)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.KIND).and(BITMAP_BYTE).toNumber() === kind)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.DOMAIN).and(BITMAP_BYTE).toNumber() === domain)
         .filter(([k]) => {
-          const c = k.shiftRight(32).and(BITMAP_SHORT).toNumber();
+          const c = k.shiftRight(BYTE_SHIFT.COUNTRY).and(BITMAP_SHORT).toNumber();
           return c === country || c === 0;
         })
-        .filter(([k]) => k.shiftRight(24).and(BITMAP_BYTE).toNumber() === category)
-        .filter(([k]) => k.shiftRight(16).and(BITMAP_BYTE).toNumber() === subcategory)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.CATEGORY).and(BITMAP_BYTE).toNumber() === category)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.SUBCATEGORY).and(BITMAP_BYTE).toNumber() === subcategory)
         .filter(([k]) => k.and(BITMAP_BYTE).toNumber() === 0)
-        .map(([k, v]) => [k.shiftRight(8).and(BITMAP_BYTE).toNumber(), v]),
+        .map(([k, v]) => [k.shiftRight(BYTE_SHIFT.SPECIFIC).and(BITMAP_BYTE).toNumber(), v]),
     );
   }
 
   public getAllExtrasOf(kind: number, domain: number, country: number, cat: number, subcat: number, specific: number): Map<number, string> {
     return new Map(
       [...this.mapSubcategory.entries()]
-        .filter(([k]) => k.shiftRight(56).and(BITMAP_BYTE).toNumber() === kind)
-        .filter(([k]) => k.shiftRight(48).and(BITMAP_BYTE).toNumber() === domain)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.KIND).and(BITMAP_BYTE).toNumber() === kind)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.DOMAIN).and(BITMAP_BYTE).toNumber() === domain)
         .filter(([k]) => {
-          const c = k.shiftRight(32).and(BITMAP_SHORT).toNumber();
+          const c = k.shiftRight(BYTE_SHIFT.COUNTRY).and(BITMAP_SHORT).toNumber();
           return c === country || c === 0;
         })
-        .filter(([k]) => k.shiftRight(24).and(BITMAP_BYTE).toNumber() === cat)
-        .filter(([k]) => k.shiftRight(16).and(BITMAP_BYTE).toNumber() === subcat)
-        .filter(([k]) => k.shiftRight(8).and(BITMAP_BYTE).toNumber() === specific)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.CATEGORY).and(BITMAP_BYTE).toNumber() === cat)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.SUBCATEGORY).and(BITMAP_BYTE).toNumber() === subcat)
+        .filter(([k]) => k.shiftRight(BYTE_SHIFT.SPECIFIC).and(BITMAP_BYTE).toNumber() === specific)
         .map(([k, v]) => [k.and(BITMAP_BYTE).toNumber(), v]),
     );
   }
