@@ -30,12 +30,12 @@
   "author": "R.W. Bruining",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@changesets/cli": "^2.29.4",
-    "@types/node": "^22.15.31",
+    "@changesets/cli": "^2.29.5",
+    "@types/node": "^22.17.1",
     "cpy-cli": "^5.0.0",
-    "prettier": "^3.5.3",
+    "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "packageManager": "pnpm@10.12.4",
   "workspaces": [

@@ -1,5 +1,13 @@
 # @siso-entity-type/parser
 
+## 1.0.1
+
+### Patch Changes
+
+- Change the license to Apache 2.0 and move repo to the TNO-MST group
+- Updated dependencies
+  - @siso-entity-type/lib@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

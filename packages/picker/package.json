@@ -1,6 +1,6 @@
 {
   "name": "@siso-entity-type/picker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": "true",
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
     "core-js": "^3.45.0",
     "lodash-es": "^4.17.21",
     "roboto-fontface": "^0.10.0",
-    "@siso-entity-type/lib": "^1.0.0",
+    "@siso-entity-type/lib": "^1.0.1",
     "vue": "^3.5.18",
     "vuetify": "^3.9.5"
   },
