@@ -1,14 +1,12 @@
 # SISO-REF-010 entity type enumerations library
 
-**Experimental**
-
 A JavaScript library for parsing SISO-REF-010 entity type enumerations data.
 
 The SISO-REF-010 is a standard developed by the
 [Simulation Interoperability Standards Organization (SISO)](https://www.sisostds.org/Home.aspx) and is widely used in distributed
 simulations such as HLA and DIS to provide Simulation Interoperability.
 
-An interactive picker-GUI is hosted on [https://tno-mst.github.io/siso-entity-type-picker/](https://tno-mst.github.io/siso-entity-type-picker/)
+An interactive picker-GUI is hosted on [https://tno-mst.github.io/siso-entity-type/](https://tno-mst.github.io/siso-entity-type/)
 
 ## Copyright notice
 
