@@ -47,11 +47,11 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
     "@types/debug": "^4.1.12",
-    "@types/node": "^22.15.31",
+    "@types/node": "^22.17.1",
     "jsdom": "^26.1.0",
     "quicktype": "^23.2.6",
     "rimraf": "^6.0.1",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.3"
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   }
 }

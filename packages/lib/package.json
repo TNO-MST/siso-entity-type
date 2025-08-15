@@ -43,10 +43,10 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
     "@types/debug": "^4.1.12",
-    "@types/node": "^22.15.31",
+    "@types/node": "^22.17.1",
     "cpy-cli": "^5.0.0",
     "jsdom": "^26.1.0",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.3"
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   }
 }
