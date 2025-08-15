@@ -57,6 +57,11 @@ This will perform the following steps:
 
 See the README of the respective packages for the instructions on how to use and develop them.
 
-## License
+## General information
 
-This project is licensed under the Apache 2.0 License. See the [LICENSE](LICENSE) file for details.
+- [License](LICENSE)
+- [Code of Conduct](https://github.com/TNO-MST/.github/blob/main/CODE_OF_CONDUCT.md)
+- [Support policy](https://github.com/TNO-MST/.github/blob/main/SUPPORT.md)
+- [Contributing guidelines](https://github.com/TNO-MST/.github/blob/main/CONTRIBUTING.md)
+- [Security policy](https://github.com/TNO-MST/.github/blob/main/SECURITY.md)
+ 
