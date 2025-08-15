@@ -73,12 +73,33 @@ describe("SisoEnumsParser class", () => {
       });
     });
 
-    describe("has correct extras", () => {
+    describe("has correct extra", () => {
       it("MC-12W Liberty of USA", () => {
         let key = Utils.createKey(1, 2, 225, 7, 8, 7, 1);
-        let cat = sisoEnums.getCategory(key);
-        expect(cat).toBeDefined();
-        expect(cat).toBe("Reconnaissance / Beechcraft Super King AIR 200/B200 / MC-12W Liberty / MC-12S EMARSS-S");
+        expect(72621510476957441n == key.toBigInt()).toBeTruthy();
+        let subcat = sisoEnums.getSubcategory(key);
+        expect(subcat).toBeDefined();
+        expect(subcat).toBe("MC-12S EMARSS-S");
+      });
+    });
+
+    describe("has correct specific", () => {
+      it("MC-12W Liberty of USA", () => {
+        let key = Utils.createKey(1, 2, 225, 7, 8, 7, 0);
+        expect(72621510476957440n == key.toBigInt()).toBeTruthy();
+        let subcat = sisoEnums.getSubcategory(key);
+        expect(subcat).toBeDefined();
+        expect(subcat).toBe("MC-12W Liberty");
+      });
+    });
+
+    describe("has correct subcat", () => {
+      it("MC-12W Liberty of USA", () => {
+        let key = Utils.createKey(1, 2, 225, 7, 8, 0, 0);
+        expect(72621510476955648n == key.toBigInt()).toBeTruthy();
+        let subcat = sisoEnums.getSubcategory(key);
+        expect(subcat).toBeDefined();
+        expect(subcat).toBe("Beechcraft Super King AIR 200/B200");
       });
     });
   });

@@ -10,6 +10,7 @@ const __dirname = dirname(__filename);
 export class SisoEnumsFactory {
   static createFromFile(filepath: string): SisoEnumsParser {
     let data = fs.readFileSync(__dirname + filepath, { encoding: "utf-8" });
+    console.log(`Creating SisoEnumsFactory from file ${__dirname + filepath}`);
     return SisoEnumsFactory.createFromString(data.toString());
   }
 
