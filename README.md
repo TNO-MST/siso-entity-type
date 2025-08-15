@@ -8,11 +8,11 @@ The SISO-REF-010 is a standard developed by the
 [Simulation Interoperability Standards Organization (SISO)](https://www.sisostds.org/Home.aspx) and is widely used in distributed
 simulations such as HLA and DIS to provide Simulation Interoperability.
 
-An interactive picker-GUI is hosted on [https://rinzeb.github.io/siso-entity-type-picker/](https://rinzeb.github.io/siso-entity-type-picker/)
+An interactive picker-GUI is hosted on [https://tno-mst.github.io/siso-entity-type-picker/](https://tno-mst.github.io/siso-entity-type-picker/)
 
 ## Copyright notice
 
-The [SISO-REF-010-2024](https://www.sisostandards.org/page/ReferenceDocuments) has a copyright © 2024 by the Simulation Interoperability
+The [SISO-REF-010-2025](https://www.sisostandards.org/page/ReferenceDocuments) has a copyright © 2025 by the Simulation Interoperability
 Standards Organization, Inc.
 
 ## Description
@@ -61,4 +61,4 @@ See the README of the respective packages for the instructions on how to use and
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache 2.0 License. See the [LICENSE](LICENSE) file for details.

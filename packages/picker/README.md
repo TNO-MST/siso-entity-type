@@ -1,6 +1,6 @@
 # SISO Entity-type Picker
 
-Single Page Application providing a GUI to the [@siso-entity-type/lib](https://github.com/rinzeb/siso-entity-type) SISO Enumerations
+Single Page Application providing a GUI to the [@siso-entity-type/lib](https://github.com/TNO-MST/siso-entity-type) SISO Enumerations
 library.
 
 ## 💿 Install
@@ -38,4 +38,4 @@ Once the build process is completed, your application will be ready for deployme
 
 ## 📑 License
 
-[MIT](http://opensource.org/licenses/MIT)
+This project is licensed under the Apache 2.0 License. See the [LICENSE](../../LICENSE) file for details.

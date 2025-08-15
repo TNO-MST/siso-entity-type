@@ -103,7 +103,7 @@ SISO-entity-type-lib is developed in TypeScript. To contribute or modify the lib
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/rinzeb/siso-entity-type.git
+   git clone https://github.com/TNO-MST/siso-entity-type.git
    cd siso-entity-type
    ```
 
@@ -168,4 +168,4 @@ In this way, only 370kB will be transferred from the server to the client applic
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache 2.0 License. See the [LICENSE](../../LICENSE) file for details.

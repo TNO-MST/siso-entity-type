@@ -13,13 +13,13 @@
   "access": "public",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rinzeb/siso-entity-type.git"
+    "url": "git+https://github.com/TNO-MST/siso-entity-type.git"
   },
   "bugs": {
-    "url": "https://github.com/rinzeb/siso-entity-type/issues"
+    "url": "https://github.com/TNO-MST/siso-entity-type/issues"
   },
-  "homepage": "https://github.com/rinzeb/siso-entity-type",
-  "license": "MIT",
+  "homepage": "https://github.com/TNO-MST/siso-entity-type",
+  "license": "Apache-2.0",
   "type": "module",
   "scripts": {
     "clean-dist": "rimraf dist && rimraf data",

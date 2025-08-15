@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-const githubUrl = "https://github.com/rinzeb/siso-entity-type-lib";
+const githubUrl = "https://github.com/TNO-MST/siso-entity-type";
 </script>
 
 <style scoped lang="sass"></style>
