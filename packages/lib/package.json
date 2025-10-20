@@ -45,7 +45,7 @@
     "@types/debug": "^4.1.12",
     "@types/node": "^22.17.1",
     "cpy-cli": "^5.0.0",
-    "jsdom": "^26.1.0",
+    "jsdom": "^27.0.1",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   }
