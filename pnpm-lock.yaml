@@ -162,8 +162,8 @@ importers:
         specifier: ^6.3.5
         version: 6.3.5(@types/node@22.17.1)(sass@1.90.0)(yaml@2.8.0)
       vite-plugin-compression2:
-        specifier: ^2.2.0
-        version: 2.2.0(rollup@4.41.1)
+        specifier: ^2.3.1
+        version: 2.3.1(rollup@4.41.1)
       vite-plugin-vue-layouts-next:
         specifier: ^0.1.5
         version: 0.1.5(vite@6.3.5(@types/node@22.17.1)(sass@1.90.0)(yaml@2.8.0))(vue-router@4.5.1(vue@3.5.18(typescript@5.9.2)))(vue@3.5.18(typescript@5.9.2))
@@ -594,8 +594,8 @@ packages:
     resolution: {integrity: sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg==}
     engines: {node: '>= 10.0.0'}
 
-  '@rollup/pluginutils@5.1.4':
-    resolution: {integrity: sha512-USm05zrsFxYLPdWWq+K3STlWiT/3ELn3RcV5hJMghpeAIhxfsUIg6mt12CBJBInWMV4VneoV7SfGv8xIwo2qNQ==}
+  '@rollup/pluginutils@5.3.0':
+    resolution: {integrity: sha512-5EdhGZtnu3V88ces7s53hhfK5KSASnJZv8Lulpc04cWO3REESroJXg73DFsOmgbU2BhwV0E20bu2IDZb3VKW4Q==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -730,6 +730,9 @@ packages:
 
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
+
+  '@types/estree@1.0.8':
+    resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -1828,6 +1831,10 @@ packages:
     resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==}
     engines: {node: '>=12'}
 
+  picomatch@4.0.3:
+    resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
+    engines: {node: '>=12'}
+
   pify@4.0.1:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
@@ -2301,8 +2308,8 @@ packages:
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
 
-  vite-plugin-compression2@2.2.0:
-    resolution: {integrity: sha512-7BZlU2mBHbqoBGy0ARkn3tv/7LC/2h8ewVDpG/cyH8iSzLw6E/yH6P4oBOEvchkQxNpl+B5W6rFR5fdSwfDhMA==}
+  vite-plugin-compression2@2.3.1:
+    resolution: {integrity: sha512-bnhLTsurtvOiiP6EMISIKVsOMCeTAjE6FJbyqQus3W4mtAxF7pCuC4puUIAiCgNs98tOCpqo6GIXJXTLufzIaw==}
 
   vite-plugin-vue-layouts-next@0.1.5:
     resolution: {integrity: sha512-m6rVGTRPcTKKLQb9c4SZa7FESXhK6T0F8JPx+dL3IupfOo/LcGXIyKOjisQXy3oELluD+wRieD6XPr1uIcqbEg==}
@@ -2959,11 +2966,11 @@ snapshots:
       '@parcel/watcher-win32-x64': 2.5.1
     optional: true
 
-  '@rollup/pluginutils@5.1.4(rollup@4.41.1)':
+  '@rollup/pluginutils@5.3.0(rollup@4.41.1)':
     dependencies:
-      '@types/estree': 1.0.7
+      '@types/estree': 1.0.8
       estree-walker: 2.0.2
-      picomatch: 4.0.2
+      picomatch: 4.0.3
     optionalDependencies:
       rollup: 4.41.1
 
@@ -3048,6 +3055,8 @@ snapshots:
   '@types/deep-eql@4.0.2': {}
 
   '@types/estree@1.0.7': {}
+
+  '@types/estree@1.0.8': {}
 
   '@types/json-schema@7.0.15': {}
 
@@ -4164,6 +4173,8 @@ snapshots:
 
   picomatch@4.0.2: {}
 
+  picomatch@4.0.3: {}
+
   pify@4.0.1: {}
 
   pinia@3.0.3(typescript@5.9.2)(vue@3.5.18(typescript@5.9.2)):
@@ -4692,9 +4703,9 @@ snapshots:
       - tsx
       - yaml
 
-  vite-plugin-compression2@2.2.0(rollup@4.41.1):
+  vite-plugin-compression2@2.3.1(rollup@4.41.1):
     dependencies:
-      '@rollup/pluginutils': 5.1.4(rollup@4.41.1)
+      '@rollup/pluginutils': 5.3.0(rollup@4.41.1)
       tar-mini: 0.2.0
     transitivePeerDependencies:
       - rollup
