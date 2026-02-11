@@ -1,5 +1,13 @@
 # @siso-entity-type/picker
 
+## 1.0.2
+
+### Patch Changes
+
+- 0541a92: Add parsing of lifeform categories
+- Updated dependencies [0541a92]
+  - @siso-entity-type/lib@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes
