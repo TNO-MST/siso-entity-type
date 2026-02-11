@@ -71,6 +71,24 @@ describe("SisoEnumsParser class", () => {
         let domain = sisoEnums.getDomain(key);
         expect(domain).toBe("Land");
       });
+      it("returns correct domain Air for 3.2.*", () => {
+        let key = Utils.createKey(3, 2, 0, 0, 0, 0, 0);
+        let domain = sisoEnums.getDomain(key);
+        expect(domain).toBe("Air");
+      });
+    });
+
+    describe("has correct categories", () => {
+      it("returns correct category Car for 1.1.0.81.*", () => {
+        let key = Utils.createKey(1, 1, 0, 81, 0, 0, 0);
+        let category = sisoEnums.getCategory(key);
+        expect(category).toBe("Car");
+      });
+      it("returns correct category Bird for 3.2.0.200.*", () => {
+        let key = Utils.createKey(3, 2, 0, 200, 0, 0, 0);
+        let category = sisoEnums.getCategory(key);
+        expect(category).toBe("Bird");
+      });
     });
 
     describe("has correct extra", () => {

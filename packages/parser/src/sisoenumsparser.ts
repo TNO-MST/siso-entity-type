@@ -24,6 +24,9 @@ const UID_ENTITYKIND = 7;
 const UID_OTHERKIND_DOMAIN = 8;
 const UID_MUNITIONKIND_DOMAIN = 14;
 const UID_SUPPLYKIND_DOMAIN = 600;
+const UID_LIFEFORMKIND_LANDDOMAIN_CATEGORIES = 472;
+const UID_LIFEFORMKIND_AIRDOMAIN_CATEGORIES = 478;
+const UID_LIFEFORMKIND_SUBSURFACEDOMAIN_CATEGORIES = 479;
 const UID_COUNTRY = 29;
 
 // Default settings for the configuration options.
@@ -38,7 +41,8 @@ export class SisoEnumsParser {
   private mapCountry: LongKeyMap<string> = new LongKeyMap();
   private mapCategory: LongKeyMap<string> = new LongKeyMap();
   private mapSubcategory: LongKeyMap<string> = new LongKeyMap();
-  private applicabilityMap: Map<string, number[]> = new Map();
+  private applicabilityKindMap: Map<string, number[]> = new Map();
+  private applicabilityDomainMap: Map<string, number[]> = new Map();
 
   constructor(parsedXml: SISOXMLTypes) {
     this.parsedXml = parsedXml;
@@ -108,6 +112,11 @@ export class SisoEnumsParser {
         case UID_OTHERKIND_DOMAIN:
         case UID_SUPPLYKIND_DOMAIN:
           this.initializeDomains(e);
+          break;
+        case UID_LIFEFORMKIND_LANDDOMAIN_CATEGORIES:
+        case UID_LIFEFORMKIND_AIRDOMAIN_CATEGORIES:
+        case UID_LIFEFORMKIND_SUBSURFACEDOMAIN_CATEGORIES:
+          this.initializeCategories(e);
           break;
         default:
           continue;
@@ -274,17 +283,31 @@ export class SisoEnumsParser {
     debug(JSON.stringify(Object.fromEntries(this.mapDomain.entries())));
   }
 
+  private initializeCategories(e: Enum) {
+    debug("Parsing categories");
+    if (!e.enumrow || !Array.isArray(e.enumrow)) return;
+    for (const r of e.enumrow) {
+      for (const kind of this.getKinds(e.__applicability)) {
+        for (const domain of this.getDomains(e.__applicability)) {
+          this.output(this.mapCategory, kind, domain, 0, +r.__value, 0, 0, 0, r.__description);
+        }
+      }
+    }
+    debug(JSON.stringify(Object.fromEntries(this.mapCategory.entries())));
+  }
+
   private getKinds(applicability?: string): number[] {
     if (!applicability) {
       return [];
     }
 
-    let kinds = this.applicabilityMap.get(applicability);
+    let kinds = this.applicabilityKindMap.get(applicability);
     if (!kinds) {
       kinds = [];
       const parts = applicability.split(",");
       for (const part of parts) {
-        const range = part.split("-").map((r) => +r || 0);
+        const kindElm = part.includes(".") ? part.split(".")[0]! : part;
+        const range = kindElm.split("-").map((r) => +r || 0);
         if (range.length === 1) {
           kinds.push(range[0]!);
         } else if (range.length > 1) {
@@ -296,10 +319,41 @@ export class SisoEnumsParser {
           kinds.push(max);
         }
       }
-      this.applicabilityMap.set(applicability, kinds);
+      debug(`Applicability "${applicability}" mapped to kinds "${JSON.stringify(kinds)}"`);
+      this.applicabilityKindMap.set(applicability, kinds);
     }
 
     return kinds;
+  }
+
+  private getDomains(applicability?: string): number[] {
+    if (!applicability) {
+      return [];
+    }
+
+    let domains = this.applicabilityDomainMap.get(applicability);
+    if (!domains) {
+      domains = [];
+      const parts = applicability.split(",");
+      for (const part of parts) {
+        const domainElm = part.includes(".") ? part.split(".")[1]! : part;
+        const range = domainElm.split("-").map((r) => +r || 0);
+        if (range.length === 1) {
+          domains.push(range[0]!);
+        } else if (range.length > 1) {
+          const min = range[0]!;
+          const max = range[1]!;
+          for (let domain = min; domain < max; domain++) {
+            domains.push(domain);
+          }
+          domains.push(max);
+        }
+      }
+      debug(`Applicability "${applicability}" mapped to domains "${JSON.stringify(domains)}"`);
+      this.applicabilityDomainMap.set(applicability, domains);
+    }
+
+    return domains;
   }
 
   private output(
@@ -334,7 +388,7 @@ export class SisoEnumsParser {
     fs.writeFileSync(outputFile, JSON.stringify(obj));
     console.log(
       `Wrote ${Object.keys(obj.domains).length} domains, ${Object.keys(obj.categories).length} categories, `,
-      `${Object.keys(obj.categories).length} categories`,
+      `${Object.keys(obj.subcategories).length} subcategories `,
       `and ${Object.keys(obj.countries).length} countries to ${join(outputFile)}`,
     );
   }
