@@ -1,5 +1,11 @@
 # @siso-entity-type/lib
 
+## 1.0.2
+
+### Patch Changes
+
+- 0541a92: Add parsing of lifeform categories
+
 ## 1.0.1
 
 ### Patch Changes
