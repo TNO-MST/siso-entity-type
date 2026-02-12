@@ -231,6 +231,12 @@ describe("SisoEnums class", () => {
     });
 
     describe("provides correct descriptions", () => {
+      it("for 3.1.225.15.0.0.0", () => {
+        let key = Utils.createKey(3, 1, 225, 15, 0, 0, 0);
+        const entity = SisoEnum.fromKey(key);
+        expect(sisoEnums.getDescriptionOf(entity, true)).toEqual("Coast Guard / Unknown subcategory 0 / Unknown specific 0 / Unknown extra 0");
+        expect(sisoEnums.getDescriptionOf(entity, false)).toEqual("Coast Guard");
+      });
       it("for 2.9.225.2.75.2.1", () => {
         let key = Utils.createKey(2, 9, 225, 2, 75, 2, 1);
         const entity = SisoEnum.fromKey(key);
@@ -293,6 +299,17 @@ describe("SisoEnums class", () => {
       let all = new Map<number, string>();
       for (let i = 0; i < 255; i++) {
         const result = sisoEnums.getAllCategoriesOf(EntityKind.Munition, 7, i);
+        result.forEach((value, key) => {
+          all.set(key, value);
+        });
+      }
+      console.log(JSON.stringify(Object.fromEntries(all)));
+    });
+
+    it("should output a map of all Life form Air categories", () => {
+      let all = new Map<number, string>();
+      for (let i = 0; i < 255; i++) {
+        const result = sisoEnums.getAllCategoriesOf(EntityKind.LifeForm, 2, i);
         result.forEach((value, key) => {
           all.set(key, value);
         });

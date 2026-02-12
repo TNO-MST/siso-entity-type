@@ -121,10 +121,10 @@ export class SisoEnums {
         this.mapSubcategory.get(key.and(BITMAP_0_CAT_SUBCAT_SPECIFIC)) ??
         this.mapSubcategory.get(key.and(BITMAP_COUNTRY_CAT_SUBCAT)) ??
         this.mapSubcategory.get(key.and(BITMAP_0_CAT_SUBCAT)) ??
-        this.mapSubcategory.get(key.and(BITMAP_COUNTRY_CAT)) ??
-        this.mapSubcategory.get(key.and(BITMAP_KIND_DOMAIN_COUNTRY)) ??
-        this.mapSubcategory.get(key.and(BITMAP_0_CAT)) ??
-        this.mapSubcategory.get(key.and(BITMAP_KIND_DOMAIN)) ??
+        this.mapCategory.get(key.and(BITMAP_COUNTRY_CAT)) ??
+        this.mapCategory.get(key.and(BITMAP_KIND_DOMAIN_COUNTRY)) ??
+        this.mapCategory.get(key.and(BITMAP_0_CAT)) ??
+        this.mapCategory.get(key.and(BITMAP_KIND_DOMAIN)) ??
         defaultValue;
     }
     if (text == null) {
