@@ -1,5 +1,13 @@
 # @siso-entity-type/picker
 
+## 1.0.3
+
+### Patch Changes
+
+- e0cacce: Fix bug in searching categories
+- Updated dependencies [e0cacce]
+  - @siso-entity-type/lib@1.0.3
+
 ## 1.0.2
 
 ### Patch Changes

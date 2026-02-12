@@ -234,7 +234,9 @@ describe("SisoEnums class", () => {
       it("for 3.1.225.15.0.0.0", () => {
         let key = Utils.createKey(3, 1, 225, 15, 0, 0, 0);
         const entity = SisoEnum.fromKey(key);
-        expect(sisoEnums.getDescriptionOf(entity, true)).toEqual("Coast Guard / Unknown subcategory 0 / Unknown specific 0 / Unknown extra 0");
+        expect(sisoEnums.getDescriptionOf(entity, true)).toEqual(
+          "Coast Guard / Unknown subcategory 0 / Unknown specific 0 / Unknown extra 0",
+        );
         expect(sisoEnums.getDescriptionOf(entity, false)).toEqual("Coast Guard");
       });
       it("for 2.9.225.2.75.2.1", () => {

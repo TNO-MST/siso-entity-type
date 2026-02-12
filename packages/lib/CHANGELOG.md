@@ -1,5 +1,11 @@
 # @siso-entity-type/lib
 
+## 1.0.3
+
+### Patch Changes
+
+- e0cacce: Fix bug in searching categories
+
 ## 1.0.2
 
 ### Patch Changes

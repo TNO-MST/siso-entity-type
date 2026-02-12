@@ -64,7 +64,7 @@ importers:
   packages/parser:
     dependencies:
       '@siso-entity-type/lib':
-        specifier: ^1.0.2
+        specifier: ^1.0.3
         version: link:../lib
       debug:
         specifier: ^4.4.1
@@ -107,7 +107,7 @@ importers:
         specifier: 7.4.47
         version: 7.4.47
       '@siso-entity-type/lib':
-        specifier: ^1.0.2
+        specifier: ^1.0.3
         version: link:../lib
       axios:
         specifier: ^1.11.0
